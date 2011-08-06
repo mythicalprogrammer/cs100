@@ -1,0 +1,917 @@
+        -:    0:Source:/usr/lib/gcc/i386-redhat-linux/4.1.2/../../../../include/c++/4.1.2/bits/stl_algobase.h
+        -:    0:Graph:xmpl.gcno
+        -:    0:Data:xmpl.gcda
+        -:    0:Runs:6
+        -:    0:Programs:1
+        -:    1:// Bits and pieces used in algorithms -*- C++ -*-
+        -:    2:
+        -:    3:// Copyright (C) 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
+        -:    4://
+        -:    5:// This file is part of the GNU ISO C++ Library.  This library is free
+        -:    6:// software; you can redistribute it and/or modify it under the
+        -:    7:// terms of the GNU General Public License as published by the
+        -:    8:// Free Software Foundation; either version 2, or (at your option)
+        -:    9:// any later version.
+        -:   10:
+        -:   11:// This library is distributed in the hope that it will be useful,
+        -:   12:// but WITHOUT ANY WARRANTY; without even the implied warranty of
+        -:   13:// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+        -:   14:// GNU General Public License for more details.
+        -:   15:
+        -:   16:// You should have received a copy of the GNU General Public License along
+        -:   17:// with this library; see the file COPYING.  If not, write to the Free
+        -:   18:// Software Foundation, 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
+        -:   19:// USA.
+        -:   20:
+        -:   21:// As a special exception, you may use this file as part of a free software
+        -:   22:// library without restriction.  Specifically, if other files instantiate
+        -:   23:// templates or use macros or inline functions from this file, or you compile
+        -:   24:// this file and link it with other files to produce an executable, this
+        -:   25:// file does not by itself cause the resulting executable to be covered by
+        -:   26:// the GNU General Public License.  This exception does not however
+        -:   27:// invalidate any other reasons why the executable file might be covered by
+        -:   28:// the GNU General Public License.
+        -:   29:
+        -:   30:/*
+        -:   31: *
+        -:   32: * Copyright (c) 1994
+        -:   33: * Hewlett-Packard Company
+        -:   34: *
+        -:   35: * Permission to use, copy, modify, distribute and sell this software
+        -:   36: * and its documentation for any purpose is hereby granted without fee,
+        -:   37: * provided that the above copyright notice appear in all copies and
+        -:   38: * that both that copyright notice and this permission notice appear
+        -:   39: * in supporting documentation.  Hewlett-Packard Company makes no
+        -:   40: * representations about the suitability of this software for any
+        -:   41: * purpose.  It is provided "as is" without express or implied warranty.
+        -:   42: *
+        -:   43: *
+        -:   44: * Copyright (c) 1996-1998
+        -:   45: * Silicon Graphics Computer Systems, Inc.
+        -:   46: *
+        -:   47: * Permission to use, copy, modify, distribute and sell this software
+        -:   48: * and its documentation for any purpose is hereby granted without fee,
+        -:   49: * provided that the above copyright notice appear in all copies and
+        -:   50: * that both that copyright notice and this permission notice appear
+        -:   51: * in supporting documentation.  Silicon Graphics makes no
+        -:   52: * representations about the suitability of this software for any
+        -:   53: * purpose.  It is provided "as is" without express or implied warranty.
+        -:   54: */
+        -:   55:
+        -:   56:/** @file stl_algobase.h
+        -:   57: *  This is an internal header file, included by other library headers.
+        -:   58: *  You should not attempt to use it directly.
+        -:   59: */
+        -:   60:
+        -:   61:#ifndef _ALGOBASE_H
+        -:   62:#define _ALGOBASE_H 1
+        -:   63:
+        -:   64:#include <bits/c++config.h>
+        -:   65:#include <cstring>
+        -:   66:#include <climits>
+        -:   67:#include <cstdlib>
+        -:   68:#include <cstddef>
+        -:   69:#include <iosfwd>
+        -:   70:#include <bits/stl_pair.h>
+        -:   71:#include <bits/cpp_type_traits.h>
+        -:   72:#include <bits/stl_iterator_base_types.h>
+        -:   73:#include <bits/stl_iterator_base_funcs.h>
+        -:   74:#include <bits/stl_iterator.h>
+        -:   75:#include <bits/concept_check.h>
+        -:   76:#include <debug/debug.h>
+        -:   77:
+        -:   78:namespace std
+        -:   79:{
+        -:   80:
+        -:   81:  /**
+        -:   82:   *  @brief Swaps two values.
+        -:   83:   *  @param  a  A thing of arbitrary type.
+        -:   84:   *  @param  b  Another thing of arbitrary type.
+        -:   85:   *  @return   Nothing.
+        -:   86:   *
+        -:   87:   *  This is the simple classic generic implementation.  It will work on
+        -:   88:   *  any type which has a copy constructor and an assignment operator.
+        -:   89:  */
+        -:   90:  template<typename _Tp>
+        -:   91:    inline void
+        -:   92:    swap(_Tp& __a, _Tp& __b)
+        -:   93:    {
+        -:   94:      // concept requirements
+        -:   95:      __glibcxx_function_requires(_SGIAssignableConcept<_Tp>)
+        -:   96:
+        -:   97:      _Tp __tmp = __a;
+        -:   98:      __a = __b;
+        -:   99:      __b = __tmp;
+        -:  100:    }
+        -:  101:
+        -:  102:  // See http://gcc.gnu.org/ml/libstdc++/2004-08/msg00167.html: in a
+        -:  103:  // nutshell, we are partially implementing the resolution of DR 187,
+        -:  104:  // when it's safe, i.e., the value_types are equal.
+        -:  105:  template<bool _BoolType>
+        -:  106:    struct __iter_swap
+        -:  107:    {
+        -:  108:      template<typename _ForwardIterator1, typename _ForwardIterator2>
+        -:  109:        static void
+        -:  110:        iter_swap(_ForwardIterator1 __a, _ForwardIterator2 __b)
+        -:  111:        {
+        -:  112:          typedef typename iterator_traits<_ForwardIterator1>::value_type
+        -:  113:            _ValueType1;
+        -:  114:          _ValueType1 __tmp = *__a;
+        -:  115:          *__a = *__b;
+        -:  116:          *__b = __tmp; 
+        -:  117:	}
+        -:  118:    };
+        -:  119:
+        -:  120:  template<>
+        -:  121:    struct __iter_swap<true>
+        -:  122:    {
+        -:  123:      template<typename _ForwardIterator1, typename _ForwardIterator2>
+        -:  124:        static void 
+        -:  125:        iter_swap(_ForwardIterator1 __a, _ForwardIterator2 __b)
+        -:  126:        {
+        -:  127:          swap(*__a, *__b);
+        -:  128:        }
+        -:  129:    };
+        -:  130:
+        -:  131:  /**
+        -:  132:   *  @brief Swaps the contents of two iterators.
+        -:  133:   *  @param  a  An iterator.
+        -:  134:   *  @param  b  Another iterator.
+        -:  135:   *  @return   Nothing.
+        -:  136:   *
+        -:  137:   *  This function swaps the values pointed to by two iterators, not the
+        -:  138:   *  iterators themselves.
+        -:  139:  */
+        -:  140:  template<typename _ForwardIterator1, typename _ForwardIterator2>
+        -:  141:    inline void
+        -:  142:    iter_swap(_ForwardIterator1 __a, _ForwardIterator2 __b)
+        -:  143:    {
+        -:  144:      typedef typename iterator_traits<_ForwardIterator1>::value_type
+        -:  145:	_ValueType1;
+        -:  146:      typedef typename iterator_traits<_ForwardIterator2>::value_type
+        -:  147:	_ValueType2;
+        -:  148:
+        -:  149:      // concept requirements
+        -:  150:      __glibcxx_function_requires(_Mutable_ForwardIteratorConcept<
+        -:  151:				  _ForwardIterator1>)
+        -:  152:      __glibcxx_function_requires(_Mutable_ForwardIteratorConcept<
+        -:  153:				  _ForwardIterator2>)
+        -:  154:      __glibcxx_function_requires(_ConvertibleConcept<_ValueType1,
+        -:  155:				  _ValueType2>)
+        -:  156:      __glibcxx_function_requires(_ConvertibleConcept<_ValueType2,
+        -:  157:				  _ValueType1>)
+        -:  158:
+        -:  159:      typedef typename iterator_traits<_ForwardIterator1>::reference
+        -:  160:	_ReferenceType1;
+        -:  161:      typedef typename iterator_traits<_ForwardIterator2>::reference
+        -:  162:	_ReferenceType2;
+        -:  163:      std::__iter_swap<__are_same<_ValueType1, _ValueType2>::__value &&
+        -:  164:	__are_same<_ValueType1 &, _ReferenceType1>::__value &&
+        -:  165:	__are_same<_ValueType2 &, _ReferenceType2>::__value>::
+        -:  166:	iter_swap(__a, __b);
+        -:  167:    }
+        -:  168:
+        -:  169:  #undef min
+        -:  170:  #undef max
+        -:  171:
+        -:  172:  /**
+        -:  173:   *  @brief This does what you think it does.
+        -:  174:   *  @param  a  A thing of arbitrary type.
+        -:  175:   *  @param  b  Another thing of arbitrary type.
+        -:  176:   *  @return   The lesser of the parameters.
+        -:  177:   *
+        -:  178:   *  This is the simple classic generic implementation.  It will work on
+        -:  179:   *  temporary expressions, since they are only evaluated once, unlike a
+        -:  180:   *  preprocessor macro.
+        -:  181:  */
+        -:  182:  template<typename _Tp>
+        -:  183:    inline const _Tp&
+    #####:  184:    min(const _Tp& __a, const _Tp& __b)
+        -:  185:    {
+        -:  186:      // concept requirements
+        -:  187:      __glibcxx_function_requires(_LessThanComparableConcept<_Tp>)
+        -:  188:      //return __b < __a ? __b : __a;
+    #####:  189:      if (__b < __a)
+    #####:  190:	return __b;
+    #####:  191:      return __a;
+        -:  192:    }
+        -:  193:
+        -:  194:  /**
+        -:  195:   *  @brief This does what you think it does.
+        -:  196:   *  @param  a  A thing of arbitrary type.
+        -:  197:   *  @param  b  Another thing of arbitrary type.
+        -:  198:   *  @return   The greater of the parameters.
+        -:  199:   *
+        -:  200:   *  This is the simple classic generic implementation.  It will work on
+        -:  201:   *  temporary expressions, since they are only evaluated once, unlike a
+        -:  202:   *  preprocessor macro.
+        -:  203:  */
+        -:  204:  template<typename _Tp>
+        -:  205:    inline const _Tp&
+        -:  206:    max(const _Tp& __a, const _Tp& __b)
+        -:  207:    {
+        -:  208:      // concept requirements
+        -:  209:      __glibcxx_function_requires(_LessThanComparableConcept<_Tp>)
+        -:  210:      //return  __a < __b ? __b : __a;
+        -:  211:      if (__a < __b)
+        -:  212:	return __b;
+        -:  213:      return __a;
+        -:  214:    }
+        -:  215:
+        -:  216:  /**
+        -:  217:   *  @brief This does what you think it does.
+        -:  218:   *  @param  a  A thing of arbitrary type.
+        -:  219:   *  @param  b  Another thing of arbitrary type.
+        -:  220:   *  @param  comp  A @link s20_3_3_comparisons comparison functor@endlink.
+        -:  221:   *  @return   The lesser of the parameters.
+        -:  222:   *
+        -:  223:   *  This will work on temporary expressions, since they are only evaluated
+        -:  224:   *  once, unlike a preprocessor macro.
+        -:  225:  */
+        -:  226:  template<typename _Tp, typename _Compare>
+        -:  227:    inline const _Tp&
+        -:  228:    min(const _Tp& __a, const _Tp& __b, _Compare __comp)
+        -:  229:    {
+        -:  230:      //return __comp(__b, __a) ? __b : __a;
+        -:  231:      if (__comp(__b, __a))
+        -:  232:	return __b;
+        -:  233:      return __a;
+        -:  234:    }
+        -:  235:
+        -:  236:  /**
+        -:  237:   *  @brief This does what you think it does.
+        -:  238:   *  @param  a  A thing of arbitrary type.
+        -:  239:   *  @param  b  Another thing of arbitrary type.
+        -:  240:   *  @param  comp  A @link s20_3_3_comparisons comparison functor@endlink.
+        -:  241:   *  @return   The greater of the parameters.
+        -:  242:   *
+        -:  243:   *  This will work on temporary expressions, since they are only evaluated
+        -:  244:   *  once, unlike a preprocessor macro.
+        -:  245:  */
+        -:  246:  template<typename _Tp, typename _Compare>
+        -:  247:    inline const _Tp&
+        -:  248:    max(const _Tp& __a, const _Tp& __b, _Compare __comp)
+        -:  249:    {
+        -:  250:      //return __comp(__a, __b) ? __b : __a;
+        -:  251:      if (__comp(__a, __b))
+        -:  252:	return __b;
+        -:  253:      return __a;
+        -:  254:    }
+        -:  255:
+        -:  256:  // All of these auxiliary structs serve two purposes.  (1) Replace
+        -:  257:  // calls to copy with memmove whenever possible.  (Memmove, not memcpy,
+        -:  258:  // because the input and output ranges are permitted to overlap.)
+        -:  259:  // (2) If we're using random access iterators, then write the loop as
+        -:  260:  // a for loop with an explicit count.
+        -:  261:
+        -:  262:  template<bool, typename>
+        -:  263:    struct __copy
+        -:  264:    {
+        -:  265:      template<typename _II, typename _OI>
+        -:  266:        static _OI
+        -:  267:        copy(_II __first, _II __last, _OI __result)
+        -:  268:        {
+        -:  269:	  for (; __first != __last; ++__result, ++__first)
+        -:  270:	    *__result = *__first;
+        -:  271:	  return __result;
+        -:  272:	}
+        -:  273:    };
+        -:  274:
+        -:  275:  template<bool _BoolType>
+        -:  276:    struct __copy<_BoolType, random_access_iterator_tag>
+        -:  277:    {
+        -:  278:      template<typename _II, typename _OI>
+        -:  279:        static _OI
+        -:  280:        copy(_II __first, _II __last, _OI __result)
+        -:  281:        { 
+        -:  282:	  typedef typename iterator_traits<_II>::difference_type _Distance;
+        -:  283:	  for(_Distance __n = __last - __first; __n > 0; --__n)
+        -:  284:	    {
+        -:  285:	      *__result = *__first;
+        -:  286:	      ++__first;
+        -:  287:	      ++__result;
+        -:  288:	    }
+        -:  289:	  return __result;
+        -:  290:	}
+        -:  291:    };
+        -:  292:
+        -:  293:  template<>
+        -:  294:    struct __copy<true, random_access_iterator_tag>
+        -:  295:    {
+        -:  296:      template<typename _Tp>
+        -:  297:        static _Tp*
+        -:  298:        copy(const _Tp* __first, const _Tp* __last, _Tp* __result)
+        -:  299:        { 
+        -:  300:	  std::memmove(__result, __first, sizeof(_Tp) * (__last - __first));
+        -:  301:	  return __result + (__last - __first);
+        -:  302:	}
+        -:  303:    };
+        -:  304:
+        -:  305:  template<typename _II, typename _OI>
+        -:  306:    inline _OI
+        -:  307:    __copy_aux(_II __first, _II __last, _OI __result)
+        -:  308:    {
+        -:  309:      typedef typename iterator_traits<_II>::value_type _ValueTypeI;
+        -:  310:      typedef typename iterator_traits<_OI>::value_type _ValueTypeO;
+        -:  311:      typedef typename iterator_traits<_II>::iterator_category _Category;
+        -:  312:      const bool __simple = (__is_scalar<_ValueTypeI>::__value
+        -:  313:	                     && __is_pointer<_II>::__value
+        -:  314:	                     && __is_pointer<_OI>::__value
+        -:  315:			     && __are_same<_ValueTypeI, _ValueTypeO>::__value);
+        -:  316:
+        -:  317:      return std::__copy<__simple, _Category>::copy(__first, __last, __result);
+        -:  318:    }
+        -:  319:
+        -:  320:  template<bool, bool>
+        -:  321:    struct __copy_normal
+        -:  322:    {
+        -:  323:      template<typename _II, typename _OI>
+        -:  324:        static _OI
+        -:  325:        copy_n(_II __first, _II __last, _OI __result)
+        -:  326:        { return std::__copy_aux(__first, __last, __result); }
+        -:  327:    };
+        -:  328:
+        -:  329:  template<>
+        -:  330:    struct __copy_normal<true, false>
+        -:  331:    {
+        -:  332:      template<typename _II, typename _OI>
+        -:  333:        static _OI
+        -:  334:        copy_n(_II __first, _II __last, _OI __result)
+        -:  335:        { return std::__copy_aux(__first.base(), __last.base(), __result); }
+        -:  336:    };
+        -:  337:
+        -:  338:  template<>
+        -:  339:    struct __copy_normal<false, true>
+        -:  340:    {
+        -:  341:      template<typename _II, typename _OI>
+        -:  342:        static _OI
+        -:  343:        copy_n(_II __first, _II __last, _OI __result)
+        -:  344:        { return _OI(std::__copy_aux(__first, __last, __result.base())); }
+        -:  345:    };
+        -:  346:
+        -:  347:  template<>
+        -:  348:    struct __copy_normal<true, true>
+        -:  349:    {
+        -:  350:      template<typename _II, typename _OI>
+        -:  351:        static _OI
+        -:  352:        copy_n(_II __first, _II __last, _OI __result)
+        -:  353:        { return _OI(std::__copy_aux(__first.base(), __last.base(),
+        -:  354:				     __result.base())); }
+        -:  355:    };
+        -:  356:
+        -:  357:  /**
+        -:  358:   *  @brief Copies the range [first,last) into result.
+        -:  359:   *  @param  first  An input iterator.
+        -:  360:   *  @param  last   An input iterator.
+        -:  361:   *  @param  result An output iterator.
+        -:  362:   *  @return   result + (first - last)
+        -:  363:   *
+        -:  364:   *  This inline function will boil down to a call to @c memmove whenever
+        -:  365:   *  possible.  Failing that, if random access iterators are passed, then the
+        -:  366:   *  loop count will be known (and therefore a candidate for compiler
+        -:  367:   *  optimizations such as unrolling).  Result may not be contained within
+        -:  368:   *  [first,last); the copy_backward function should be used instead.
+        -:  369:   *
+        -:  370:   *  Note that the end of the output range is permitted to be contained
+        -:  371:   *  within [first,last).
+        -:  372:  */
+        -:  373:  template<typename _InputIterator, typename _OutputIterator>
+        -:  374:    inline _OutputIterator
+        -:  375:    copy(_InputIterator __first, _InputIterator __last,
+        -:  376:	 _OutputIterator __result)
+        -:  377:    {
+        -:  378:      // concept requirements
+        -:  379:      __glibcxx_function_requires(_InputIteratorConcept<_InputIterator>)
+        -:  380:      __glibcxx_function_requires(_OutputIteratorConcept<_OutputIterator,
+        -:  381:	    typename iterator_traits<_InputIterator>::value_type>)
+        -:  382:      __glibcxx_requires_valid_range(__first, __last);
+        -:  383:
+        -:  384:       const bool __in = __is_normal_iterator<_InputIterator>::__value;
+        -:  385:       const bool __out = __is_normal_iterator<_OutputIterator>::__value;
+        -:  386:       return std::__copy_normal<__in, __out>::copy_n(__first, __last,
+        -:  387:						      __result);
+        -:  388:    }
+        -:  389:  
+        -:  390:  template<bool, typename>
+        -:  391:    struct __copy_backward
+        -:  392:    {
+        -:  393:      template<typename _BI1, typename _BI2>
+        -:  394:        static _BI2
+        -:  395:        copy_b(_BI1 __first, _BI1 __last, _BI2 __result)
+        -:  396:        { 
+        -:  397:	  while (__first != __last)
+        -:  398:	    *--__result = *--__last;
+        -:  399:	  return __result;
+        -:  400:	}
+        -:  401:    };
+        -:  402:
+        -:  403:  template<bool _BoolType>
+        -:  404:    struct __copy_backward<_BoolType, random_access_iterator_tag>
+        -:  405:    {
+        -:  406:      template<typename _BI1, typename _BI2>
+        -:  407:        static _BI2
+        -:  408:        copy_b(_BI1 __first, _BI1 __last, _BI2 __result)
+        -:  409:        { 
+        -:  410:	  typename iterator_traits<_BI1>::difference_type __n;
+        -:  411:	  for (__n = __last - __first; __n > 0; --__n)
+        -:  412:	    *--__result = *--__last;
+        -:  413:	  return __result;
+        -:  414:	}
+        -:  415:    };
+        -:  416:
+        -:  417:  template<>
+        -:  418:    struct __copy_backward<true, random_access_iterator_tag>
+        -:  419:    {
+        -:  420:      template<typename _Tp>
+        -:  421:        static _Tp*
+        -:  422:        copy_b(const _Tp* __first, const _Tp* __last, _Tp* __result)
+        -:  423:        { 
+        -:  424:	  const ptrdiff_t _Num = __last - __first;
+        -:  425:	  std::memmove(__result - _Num, __first, sizeof(_Tp) * _Num);
+        -:  426:	  return __result - _Num;
+        -:  427:	}
+        -:  428:    };
+        -:  429:
+        -:  430:  template<typename _BI1, typename _BI2>
+        -:  431:    inline _BI2
+        -:  432:    __copy_backward_aux(_BI1 __first, _BI1 __last, _BI2 __result)
+        -:  433:    {
+        -:  434:      typedef typename iterator_traits<_BI1>::value_type _ValueType1;
+        -:  435:      typedef typename iterator_traits<_BI2>::value_type _ValueType2;
+        -:  436:      typedef typename iterator_traits<_BI1>::iterator_category _Category;
+        -:  437:      const bool __simple = (__is_scalar<_ValueType1>::__value
+        -:  438:	                     && __is_pointer<_BI1>::__value
+        -:  439:	                     && __is_pointer<_BI2>::__value
+        -:  440:			     && __are_same<_ValueType1, _ValueType2>::__value);
+        -:  441:
+        -:  442:      return std::__copy_backward<__simple, _Category>::copy_b(__first, __last,
+        -:  443:							       __result);
+        -:  444:    }
+        -:  445:
+        -:  446:  template<bool, bool>
+        -:  447:    struct __copy_backward_normal
+        -:  448:    {
+        -:  449:      template<typename _BI1, typename _BI2>
+        -:  450:        static _BI2
+        -:  451:        copy_b_n(_BI1 __first, _BI1 __last, _BI2 __result)
+        -:  452:        { return std::__copy_backward_aux(__first, __last, __result); }
+        -:  453:    };
+        -:  454:
+        -:  455:  template<>
+        -:  456:    struct __copy_backward_normal<true, false>
+        -:  457:    {
+        -:  458:      template<typename _BI1, typename _BI2>
+        -:  459:        static _BI2
+        -:  460:        copy_b_n(_BI1 __first, _BI1 __last, _BI2 __result)
+        -:  461:        { return std::__copy_backward_aux(__first.base(), __last.base(),
+        -:  462:					  __result); }
+        -:  463:    };
+        -:  464:
+        -:  465:  template<>
+        -:  466:    struct __copy_backward_normal<false, true>
+        -:  467:    {
+        -:  468:      template<typename _BI1, typename _BI2>
+        -:  469:        static _BI2
+        -:  470:        copy_b_n(_BI1 __first, _BI1 __last, _BI2 __result)
+        -:  471:        { return _BI2(std::__copy_backward_aux(__first, __last,
+        -:  472:					       __result.base())); }
+        -:  473:    };
+        -:  474:
+        -:  475:  template<>
+        -:  476:    struct __copy_backward_normal<true, true>
+        -:  477:    {
+        -:  478:      template<typename _BI1, typename _BI2>
+        -:  479:        static _BI2
+        -:  480:        copy_b_n(_BI1 __first, _BI1 __last, _BI2 __result)
+        -:  481:        { return _BI2(std::__copy_backward_aux(__first.base(), __last.base(),
+        -:  482:					       __result.base())); }
+        -:  483:    };
+        -:  484:
+        -:  485:  /**
+        -:  486:   *  @brief Copies the range [first,last) into result.
+        -:  487:   *  @param  first  A bidirectional iterator.
+        -:  488:   *  @param  last   A bidirectional iterator.
+        -:  489:   *  @param  result A bidirectional iterator.
+        -:  490:   *  @return   result - (first - last)
+        -:  491:   *
+        -:  492:   *  The function has the same effect as copy, but starts at the end of the
+        -:  493:   *  range and works its way to the start, returning the start of the result.
+        -:  494:   *  This inline function will boil down to a call to @c memmove whenever
+        -:  495:   *  possible.  Failing that, if random access iterators are passed, then the
+        -:  496:   *  loop count will be known (and therefore a candidate for compiler
+        -:  497:   *  optimizations such as unrolling).
+        -:  498:   *
+        -:  499:   *  Result may not be in the range [first,last).  Use copy instead.  Note
+        -:  500:   *  that the start of the output range may overlap [first,last).
+        -:  501:  */
+        -:  502:  template <typename _BI1, typename _BI2>
+        -:  503:    inline _BI2
+        -:  504:    copy_backward(_BI1 __first, _BI1 __last, _BI2 __result)
+        -:  505:    {
+        -:  506:      // concept requirements
+        -:  507:      __glibcxx_function_requires(_BidirectionalIteratorConcept<_BI1>)
+        -:  508:      __glibcxx_function_requires(_Mutable_BidirectionalIteratorConcept<_BI2>)
+        -:  509:      __glibcxx_function_requires(_ConvertibleConcept<
+        -:  510:	    typename iterator_traits<_BI1>::value_type,
+        -:  511:	    typename iterator_traits<_BI2>::value_type>)
+        -:  512:      __glibcxx_requires_valid_range(__first, __last);
+        -:  513:
+        -:  514:      const bool __bi1 = __is_normal_iterator<_BI1>::__value;
+        -:  515:      const bool __bi2 = __is_normal_iterator<_BI2>::__value;
+        -:  516:      return std::__copy_backward_normal<__bi1, __bi2>::copy_b_n(__first, __last,
+        -:  517:								 __result);
+        -:  518:    }
+        -:  519:
+        -:  520:  template<bool>
+        -:  521:    struct __fill
+        -:  522:    {
+        -:  523:      template<typename _ForwardIterator, typename _Tp>
+        -:  524:        static void
+        -:  525:        fill(_ForwardIterator __first, _ForwardIterator __last,
+        -:  526:	     const _Tp& __value)
+        -:  527:        {
+        -:  528:	  for (; __first != __last; ++__first)
+        -:  529:	    *__first = __value;
+        -:  530:	}
+        -:  531:    };
+        -:  532:
+        -:  533:  template<>
+        -:  534:    struct __fill<true>
+        -:  535:    {
+        -:  536:      template<typename _ForwardIterator, typename _Tp>
+        -:  537:        static void
+        -:  538:        fill(_ForwardIterator __first, _ForwardIterator __last,
+        -:  539:	     const _Tp& __value)
+        -:  540:        {
+        -:  541:	  const _Tp __tmp = __value;
+        -:  542:	  for (; __first != __last; ++__first)
+        -:  543:	    *__first = __tmp;
+        -:  544:	}
+        -:  545:    };
+        -:  546:
+        -:  547:  /**
+        -:  548:   *  @brief Fills the range [first,last) with copies of value.
+        -:  549:   *  @param  first  A forward iterator.
+        -:  550:   *  @param  last   A forward iterator.
+        -:  551:   *  @param  value  A reference-to-const of arbitrary type.
+        -:  552:   *  @return   Nothing.
+        -:  553:   *
+        -:  554:   *  This function fills a range with copies of the same value.  For one-byte
+        -:  555:   *  types filling contiguous areas of memory, this becomes an inline call to
+        -:  556:   *  @c memset.
+        -:  557:  */
+        -:  558:  template<typename _ForwardIterator, typename _Tp>
+        -:  559:    void
+        -:  560:    fill(_ForwardIterator __first, _ForwardIterator __last, const _Tp& __value)
+        -:  561:    {
+        -:  562:      // concept requirements
+        -:  563:      __glibcxx_function_requires(_Mutable_ForwardIteratorConcept<
+        -:  564:				  _ForwardIterator>)
+        -:  565:      __glibcxx_requires_valid_range(__first, __last);
+        -:  566:
+        -:  567:      const bool __scalar = __is_scalar<_Tp>::__value;
+        -:  568:      std::__fill<__scalar>::fill(__first, __last, __value);
+        -:  569:    }
+        -:  570:
+        -:  571:  // Specialization: for one-byte types we can use memset.
+        -:  572:  inline void
+        -:  573:  fill(unsigned char* __first, unsigned char* __last, const unsigned char& __c)
+        -:  574:  {
+        -:  575:    __glibcxx_requires_valid_range(__first, __last);
+        -:  576:    const unsigned char __tmp = __c;
+        -:  577:    std::memset(__first, __tmp, __last - __first);
+        -:  578:  }
+        -:  579:
+        -:  580:  inline void
+        -:  581:  fill(signed char* __first, signed char* __last, const signed char& __c)
+        -:  582:  {
+        -:  583:    __glibcxx_requires_valid_range(__first, __last);
+        -:  584:    const signed char __tmp = __c;
+        -:  585:    std::memset(__first, static_cast<unsigned char>(__tmp), __last - __first);
+        -:  586:  }
+        -:  587:
+        -:  588:  inline void
+        -:  589:  fill(char* __first, char* __last, const char& __c)
+        -:  590:  {
+        -:  591:    __glibcxx_requires_valid_range(__first, __last);
+        -:  592:    const char __tmp = __c;
+        -:  593:    std::memset(__first, static_cast<unsigned char>(__tmp), __last - __first);
+        -:  594:  }
+        -:  595:
+        -:  596:  template<bool>
+        -:  597:    struct __fill_n
+        -:  598:    {
+        -:  599:      template<typename _OutputIterator, typename _Size, typename _Tp>
+        -:  600:        static _OutputIterator
+        -:  601:        fill_n(_OutputIterator __first, _Size __n, const _Tp& __value)
+        -:  602:        {
+        -:  603:	  for (; __n > 0; --__n, ++__first)
+        -:  604:	    *__first = __value;
+        -:  605:	  return __first;
+        -:  606:	}
+        -:  607:    };
+        -:  608:
+        -:  609:  template<>
+        -:  610:    struct __fill_n<true>
+        -:  611:    {
+        -:  612:      template<typename _OutputIterator, typename _Size, typename _Tp>
+        -:  613:        static _OutputIterator
+        -:  614:        fill_n(_OutputIterator __first, _Size __n, const _Tp& __value)
+        -:  615:        {
+        -:  616:	  const _Tp __tmp = __value;
+        -:  617:	  for (; __n > 0; --__n, ++__first)
+        -:  618:	    *__first = __tmp;
+        -:  619:	  return __first;	  
+        -:  620:	}
+        -:  621:    };
+        -:  622:
+        -:  623:  /**
+        -:  624:   *  @brief Fills the range [first,first+n) with copies of value.
+        -:  625:   *  @param  first  An output iterator.
+        -:  626:   *  @param  n      The count of copies to perform.
+        -:  627:   *  @param  value  A reference-to-const of arbitrary type.
+        -:  628:   *  @return   The iterator at first+n.
+        -:  629:   *
+        -:  630:   *  This function fills a range with copies of the same value.  For one-byte
+        -:  631:   *  types filling contiguous areas of memory, this becomes an inline call to
+        -:  632:   *  @c memset.
+        -:  633:  */
+        -:  634:  template<typename _OutputIterator, typename _Size, typename _Tp>
+        -:  635:    _OutputIterator
+        -:  636:    fill_n(_OutputIterator __first, _Size __n, const _Tp& __value)
+        -:  637:    {
+        -:  638:      // concept requirements
+        -:  639:      __glibcxx_function_requires(_OutputIteratorConcept<_OutputIterator, _Tp>)
+        -:  640:
+        -:  641:      const bool __scalar = __is_scalar<_Tp>::__value;
+        -:  642:      return std::__fill_n<__scalar>::fill_n(__first, __n, __value);
+        -:  643:    }
+        -:  644:
+        -:  645:  template<typename _Size>
+        -:  646:    inline unsigned char*
+        -:  647:    fill_n(unsigned char* __first, _Size __n, const unsigned char& __c)
+        -:  648:    {
+        -:  649:      std::fill(__first, __first + __n, __c);
+        -:  650:      return __first + __n;
+        -:  651:    }
+        -:  652:
+        -:  653:  template<typename _Size>
+        -:  654:    inline signed char*
+        -:  655:    fill_n(char* __first, _Size __n, const signed char& __c)
+        -:  656:    {
+        -:  657:      std::fill(__first, __first + __n, __c);
+        -:  658:      return __first + __n;
+        -:  659:    }
+        -:  660:
+        -:  661:  template<typename _Size>
+        -:  662:    inline char*
+        -:  663:    fill_n(char* __first, _Size __n, const char& __c)
+        -:  664:    {
+        -:  665:      std::fill(__first, __first + __n, __c);
+        -:  666:      return __first + __n;
+        -:  667:    }
+        -:  668:
+        -:  669:  /**
+        -:  670:   *  @brief Finds the places in ranges which don't match.
+        -:  671:   *  @param  first1  An input iterator.
+        -:  672:   *  @param  last1   An input iterator.
+        -:  673:   *  @param  first2  An input iterator.
+        -:  674:   *  @return   A pair of iterators pointing to the first mismatch.
+        -:  675:   *
+        -:  676:   *  This compares the elements of two ranges using @c == and returns a pair
+        -:  677:   *  of iterators.  The first iterator points into the first range, the
+        -:  678:   *  second iterator points into the second range, and the elements pointed
+        -:  679:   *  to by the iterators are not equal.
+        -:  680:  */
+        -:  681:  template<typename _InputIterator1, typename _InputIterator2>
+        -:  682:    pair<_InputIterator1, _InputIterator2>
+        -:  683:    mismatch(_InputIterator1 __first1, _InputIterator1 __last1,
+        -:  684:	     _InputIterator2 __first2)
+        -:  685:    {
+        -:  686:      // concept requirements
+        -:  687:      __glibcxx_function_requires(_InputIteratorConcept<_InputIterator1>)
+        -:  688:      __glibcxx_function_requires(_InputIteratorConcept<_InputIterator2>)
+        -:  689:      __glibcxx_function_requires(_EqualOpConcept<
+        -:  690:	    typename iterator_traits<_InputIterator1>::value_type,
+        -:  691:	    typename iterator_traits<_InputIterator2>::value_type>)
+        -:  692:      __glibcxx_requires_valid_range(__first1, __last1);
+        -:  693:
+        -:  694:      while (__first1 != __last1 && *__first1 == *__first2)
+        -:  695:        {
+        -:  696:	  ++__first1;
+        -:  697:	  ++__first2;
+        -:  698:        }
+        -:  699:      return pair<_InputIterator1, _InputIterator2>(__first1, __first2);
+        -:  700:    }
+        -:  701:
+        -:  702:  /**
+        -:  703:   *  @brief Finds the places in ranges which don't match.
+        -:  704:   *  @param  first1  An input iterator.
+        -:  705:   *  @param  last1   An input iterator.
+        -:  706:   *  @param  first2  An input iterator.
+        -:  707:   *  @param  binary_pred  A binary predicate @link s20_3_1_base functor@endlink.
+        -:  708:   *  @return   A pair of iterators pointing to the first mismatch.
+        -:  709:   *
+        -:  710:   *  This compares the elements of two ranges using the binary_pred
+        -:  711:   *  parameter, and returns a pair
+        -:  712:   *  of iterators.  The first iterator points into the first range, the
+        -:  713:   *  second iterator points into the second range, and the elements pointed
+        -:  714:   *  to by the iterators are not equal.
+        -:  715:  */
+        -:  716:  template<typename _InputIterator1, typename _InputIterator2,
+        -:  717:	   typename _BinaryPredicate>
+        -:  718:    pair<_InputIterator1, _InputIterator2>
+        -:  719:    mismatch(_InputIterator1 __first1, _InputIterator1 __last1,
+        -:  720:	     _InputIterator2 __first2, _BinaryPredicate __binary_pred)
+        -:  721:    {
+        -:  722:      // concept requirements
+        -:  723:      __glibcxx_function_requires(_InputIteratorConcept<_InputIterator1>)
+        -:  724:      __glibcxx_function_requires(_InputIteratorConcept<_InputIterator2>)
+        -:  725:      __glibcxx_requires_valid_range(__first1, __last1);
+        -:  726:
+        -:  727:      while (__first1 != __last1 && __binary_pred(*__first1, *__first2))
+        -:  728:        {
+        -:  729:	  ++__first1;
+        -:  730:	  ++__first2;
+        -:  731:        }
+        -:  732:      return pair<_InputIterator1, _InputIterator2>(__first1, __first2);
+        -:  733:    }
+        -:  734:
+        -:  735:  /**
+        -:  736:   *  @brief Tests a range for element-wise equality.
+        -:  737:   *  @param  first1  An input iterator.
+        -:  738:   *  @param  last1   An input iterator.
+        -:  739:   *  @param  first2  An input iterator.
+        -:  740:   *  @return   A boolean true or false.
+        -:  741:   *
+        -:  742:   *  This compares the elements of two ranges using @c == and returns true or
+        -:  743:   *  false depending on whether all of the corresponding elements of the
+        -:  744:   *  ranges are equal.
+        -:  745:  */
+        -:  746:  template<typename _InputIterator1, typename _InputIterator2>
+        -:  747:    inline bool
+        -:  748:    equal(_InputIterator1 __first1, _InputIterator1 __last1,
+        -:  749:	  _InputIterator2 __first2)
+        -:  750:    {
+        -:  751:      // concept requirements
+        -:  752:      __glibcxx_function_requires(_InputIteratorConcept<_InputIterator1>)
+        -:  753:      __glibcxx_function_requires(_InputIteratorConcept<_InputIterator2>)
+        -:  754:      __glibcxx_function_requires(_EqualOpConcept<
+        -:  755:	    typename iterator_traits<_InputIterator1>::value_type,
+        -:  756:	    typename iterator_traits<_InputIterator2>::value_type>)
+        -:  757:      __glibcxx_requires_valid_range(__first1, __last1);
+        -:  758:      
+        -:  759:      for (; __first1 != __last1; ++__first1, ++__first2)
+        -:  760:	if (!(*__first1 == *__first2))
+        -:  761:	  return false;
+        -:  762:      return true;
+        -:  763:    }
+        -:  764:
+        -:  765:  /**
+        -:  766:   *  @brief Tests a range for element-wise equality.
+        -:  767:   *  @param  first1  An input iterator.
+        -:  768:   *  @param  last1   An input iterator.
+        -:  769:   *  @param  first2  An input iterator.
+        -:  770:   *  @param  binary_pred  A binary predicate @link s20_3_1_base functor@endlink.
+        -:  771:   *  @return   A boolean true or false.
+        -:  772:   *
+        -:  773:   *  This compares the elements of two ranges using the binary_pred
+        -:  774:   *  parameter, and returns true or
+        -:  775:   *  false depending on whether all of the corresponding elements of the
+        -:  776:   *  ranges are equal.
+        -:  777:  */
+        -:  778:  template<typename _InputIterator1, typename _InputIterator2,
+        -:  779:	   typename _BinaryPredicate>
+        -:  780:    inline bool
+        -:  781:    equal(_InputIterator1 __first1, _InputIterator1 __last1,
+        -:  782:	  _InputIterator2 __first2,
+        -:  783:	  _BinaryPredicate __binary_pred)
+        -:  784:    {
+        -:  785:      // concept requirements
+        -:  786:      __glibcxx_function_requires(_InputIteratorConcept<_InputIterator1>)
+        -:  787:      __glibcxx_function_requires(_InputIteratorConcept<_InputIterator2>)
+        -:  788:      __glibcxx_requires_valid_range(__first1, __last1);
+        -:  789:
+        -:  790:      for (; __first1 != __last1; ++__first1, ++__first2)
+        -:  791:	if (!__binary_pred(*__first1, *__first2))
+        -:  792:	  return false;
+        -:  793:      return true;
+        -:  794:    }
+        -:  795:
+        -:  796:  /**
+        -:  797:   *  @brief Performs "dictionary" comparison on ranges.
+        -:  798:   *  @param  first1  An input iterator.
+        -:  799:   *  @param  last1   An input iterator.
+        -:  800:   *  @param  first2  An input iterator.
+        -:  801:   *  @param  last2   An input iterator.
+        -:  802:   *  @return   A boolean true or false.
+        -:  803:   *
+        -:  804:   *  "Returns true if the sequence of elements defined by the range
+        -:  805:   *  [first1,last1) is lexicographically less than the sequence of elements
+        -:  806:   *  defined by the range [first2,last2).  Returns false otherwise."
+        -:  807:   *  (Quoted from [25.3.8]/1.)  If the iterators are all character pointers,
+        -:  808:   *  then this is an inline call to @c memcmp.
+        -:  809:  */
+        -:  810:  template<typename _InputIterator1, typename _InputIterator2>
+        -:  811:    bool
+        -:  812:    lexicographical_compare(_InputIterator1 __first1, _InputIterator1 __last1,
+        -:  813:			    _InputIterator2 __first2, _InputIterator2 __last2)
+        -:  814:    {
+        -:  815:      // concept requirements
+        -:  816:      __glibcxx_function_requires(_InputIteratorConcept<_InputIterator1>)
+        -:  817:      __glibcxx_function_requires(_InputIteratorConcept<_InputIterator2>)
+        -:  818:      __glibcxx_function_requires(_LessThanOpConcept<
+        -:  819:	    typename iterator_traits<_InputIterator1>::value_type,
+        -:  820:	    typename iterator_traits<_InputIterator2>::value_type>)
+        -:  821:      __glibcxx_function_requires(_LessThanOpConcept<
+        -:  822:	    typename iterator_traits<_InputIterator2>::value_type,
+        -:  823:	    typename iterator_traits<_InputIterator1>::value_type>)
+        -:  824:      __glibcxx_requires_valid_range(__first1, __last1);
+        -:  825:      __glibcxx_requires_valid_range(__first2, __last2);
+        -:  826:
+        -:  827:      for (; __first1 != __last1 && __first2 != __last2;
+        -:  828:	   ++__first1, ++__first2)
+        -:  829:	{
+        -:  830:	  if (*__first1 < *__first2)
+        -:  831:	    return true;
+        -:  832:	  if (*__first2 < *__first1)
+        -:  833:	    return false;
+        -:  834:	}
+        -:  835:      return __first1 == __last1 && __first2 != __last2;
+        -:  836:    }
+        -:  837:
+        -:  838:  /**
+        -:  839:   *  @brief Performs "dictionary" comparison on ranges.
+        -:  840:   *  @param  first1  An input iterator.
+        -:  841:   *  @param  last1   An input iterator.
+        -:  842:   *  @param  first2  An input iterator.
+        -:  843:   *  @param  last2   An input iterator.
+        -:  844:   *  @param  comp  A @link s20_3_3_comparisons comparison functor@endlink.
+        -:  845:   *  @return   A boolean true or false.
+        -:  846:   *
+        -:  847:   *  The same as the four-parameter @c lexigraphical_compare, but uses the
+        -:  848:   *  comp parameter instead of @c <.
+        -:  849:  */
+        -:  850:  template<typename _InputIterator1, typename _InputIterator2,
+        -:  851:	   typename _Compare>
+        -:  852:    bool
+        -:  853:    lexicographical_compare(_InputIterator1 __first1, _InputIterator1 __last1,
+        -:  854:			    _InputIterator2 __first2, _InputIterator2 __last2,
+        -:  855:			    _Compare __comp)
+        -:  856:    {
+        -:  857:      // concept requirements
+        -:  858:      __glibcxx_function_requires(_InputIteratorConcept<_InputIterator1>)
+        -:  859:      __glibcxx_function_requires(_InputIteratorConcept<_InputIterator2>)
+        -:  860:      __glibcxx_requires_valid_range(__first1, __last1);
+        -:  861:      __glibcxx_requires_valid_range(__first2, __last2);
+        -:  862:
+        -:  863:      for (; __first1 != __last1 && __first2 != __last2;
+        -:  864:	   ++__first1, ++__first2)
+        -:  865:	{
+        -:  866:	  if (__comp(*__first1, *__first2))
+        -:  867:	    return true;
+        -:  868:	  if (__comp(*__first2, *__first1))
+        -:  869:	    return false;
+        -:  870:	}
+        -:  871:      return __first1 == __last1 && __first2 != __last2;
+        -:  872:    }
+        -:  873:
+        -:  874:  inline bool
+        -:  875:  lexicographical_compare(const unsigned char* __first1,
+        -:  876:			  const unsigned char* __last1,
+        -:  877:			  const unsigned char* __first2,
+        -:  878:			  const unsigned char* __last2)
+        -:  879:  {
+        -:  880:    __glibcxx_requires_valid_range(__first1, __last1);
+        -:  881:    __glibcxx_requires_valid_range(__first2, __last2);
+        -:  882:
+        -:  883:    const size_t __len1 = __last1 - __first1;
+        -:  884:    const size_t __len2 = __last2 - __first2;
+        -:  885:    const int __result = std::memcmp(__first1, __first2,
+        -:  886:				     std::min(__len1, __len2));
+        -:  887:    return __result != 0 ? __result < 0 : __len1 < __len2;
+        -:  888:  }
+        -:  889:
+        -:  890:  inline bool
+        -:  891:  lexicographical_compare(const char* __first1, const char* __last1,
+        -:  892:			  const char* __first2, const char* __last2)
+        -:  893:  {
+        -:  894:    __glibcxx_requires_valid_range(__first1, __last1);
+        -:  895:    __glibcxx_requires_valid_range(__first2, __last2);
+        -:  896:
+        -:  897:#if CHAR_MAX == SCHAR_MAX
+        -:  898:    return std::lexicographical_compare((const signed char*) __first1,
+        -:  899:					(const signed char*) __last1,
+        -:  900:					(const signed char*) __first2,
+        -:  901:					(const signed char*) __last2);
+        -:  902:#else /* CHAR_MAX == SCHAR_MAX */
+        -:  903:    return std::lexicographical_compare((const unsigned char*) __first1,
+        -:  904:					(const unsigned char*) __last1,
+        -:  905:					(const unsigned char*) __first2,
+        -:  906:					(const unsigned char*) __last2);
+        -:  907:#endif /* CHAR_MAX == SCHAR_MAX */
+        -:  908:  }
+        -:  909:
+        -:  910:} // namespace std
+        -:  911:
+        -:  912:#endif

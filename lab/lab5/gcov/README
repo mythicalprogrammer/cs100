@@ -1,0 +1,8 @@
+$Id: README,v 1.2 2003/09/06 22:04:52 phf Exp $
+
+Tutorial on measuring test coverage using gcov.
+
+Copyright (c) 2003 by Peter H. Froehlich <phf@cs.ucr.edu>.
+All rights reserved.
+
+Freely distributable for non-commercial purposes.

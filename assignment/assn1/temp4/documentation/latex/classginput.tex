@@ -1,0 +1,141 @@
+\section{ginput Class Reference}
+\label{classginput}\index{ginput@{ginput}}
+{\tt \#include $<$ginput.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\bf{ginput} ()
+\item 
+\bf{ginput} (bool val)
+\item 
+bool \bf{value} ()
+\item 
+void \bf{set\_\-value} (bool value)
+\item 
+void \bf{set\_\-name} (char name)
+\item 
+char \bf{get\_\-name} ()
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+The class ginput Description: This class holds the gate input values 
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{ginput@{ginput}!ginput@{ginput}}
+\index{ginput@{ginput}!ginput@{ginput}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}ginput::ginput ()\hspace{0.3cm}{\tt  [inline]}}\label{classginput_823d421e04e4eaa3c283bb7830c78494}
+
+
+The Constructor. 
+
+\begin{Code}\begin{verbatim}26   {
+27    this->val = false; 
+28    this->name = name;
+29   }
+\end{verbatim}\end{Code}
+
+
+\index{ginput@{ginput}!ginput@{ginput}}
+\index{ginput@{ginput}!ginput@{ginput}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}ginput::ginput (bool {\em val})\hspace{0.3cm}{\tt  [inline]}}\label{classginput_bc88321067aceab75820c47098829073}
+
+
+The Constructor with parameter. 
+
+\begin{Code}\begin{verbatim}33   {
+34     this->val = val;
+35   }
+\end{verbatim}\end{Code}
+
+
+
+
+\subsection{Member Function Documentation}
+\index{ginput@{ginput}!get_name@{get\_\-name}}
+\index{get_name@{get\_\-name}!ginput@{ginput}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char ginput::get\_\-name ()\hspace{0.3cm}{\tt  [inline]}}\label{classginput_598509c3ec74101e29e4017bd6670595}
+
+
+Return name
+
+\begin{Desc}
+\item[Returns:]Returns a char \end{Desc}
+
+
+\begin{Code}\begin{verbatim}74   {
+75     return this->name;
+76   }
+\end{verbatim}\end{Code}
+
+
+\index{ginput@{ginput}!set_name@{set\_\-name}}
+\index{set_name@{set\_\-name}!ginput@{ginput}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void ginput::set\_\-name (char {\em name})\hspace{0.3cm}{\tt  [inline]}}\label{classginput_f0422ac4010737b0e8c27c5853aef10b}
+
+
+Set the name
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em name}]A string parameter \end{description}
+\end{Desc}
+
+
+\begin{Code}\begin{verbatim}64   {
+65     this->name = name;
+66   }
+\end{verbatim}\end{Code}
+
+
+\index{ginput@{ginput}!set_value@{set\_\-value}}
+\index{set_value@{set\_\-value}!ginput@{ginput}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void ginput::set\_\-value (bool {\em value})\hspace{0.3cm}{\tt  [inline]}}\label{classginput_f3565a9358711dc45e20a6ce343081fb}
+
+
+Set the value
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em val}]A bool parameter \end{description}
+\end{Desc}
+
+
+\begin{Code}\begin{verbatim}54   {
+55     this->val = value;
+56   }
+\end{verbatim}\end{Code}
+
+
+\index{ginput@{ginput}!value@{value}}
+\index{value@{value}!ginput@{ginput}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}bool ginput::value ()\hspace{0.3cm}{\tt  [inline]}}\label{classginput_50570f9660ec53425f39a6acb1fa9f6f}
+
+
+Return the value
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em val}]A bool \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]Returns a bool \end{Desc}
+
+
+\begin{Code}\begin{verbatim}44   {
+45     return this->val;
+46   }  
+\end{verbatim}\end{Code}
+
+
+
+
+The documentation for this class was generated from the following file:\begin{CompactItemize}
+\item 
+\bf{ginput.h}\end{CompactItemize}

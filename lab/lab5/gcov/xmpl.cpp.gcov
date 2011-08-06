@@ -1,0 +1,40 @@
+        -:    0:Source:xmpl.cpp
+        -:    0:Graph:xmpl.gcno
+        -:    0:Data:xmpl.gcda
+        -:    0:Runs:6
+        -:    0:Programs:1
+        -:    1:// $Id: xmpl.cpp,v 1.1 2003/09/06 21:57:18 phf Exp $
+        -:    2:
+        -:    3:#include <string>
+        -:    4:#include <iostream>
+        -:    5:#include <vector>
+        -:    6:#include <cassert>
+        -:    7:
+        -:    8:const int MAXARGS = 16;
+        -:    9:
+        6:   10:int main( int argc, char* argv[] ) {
+        -:   11:
+        -:   12:  // Convert C-style arguments to C++ abstractions.
+        6:   13:  assert( argc <= MAXARGS );
+        6:   14:  std::vector<std::string> args( MAXARGS );
+       32:   15:  for (int i = 0; i < argc; i++) {
+       26:   16:    std::string s( argv[i] );
+       52:   17:    args[i] = s;
+        -:   18:  }
+        -:   19:
+        -:   20:  // Establish pair-wise equality between arguments.
+       21:   21:  for (int i = 1; i < argc-1; i++) {
+       15:   22:    if (args[i] == args[i+1]) {
+        5:   23:      std::cout << "Check!" << std::endl;
+        -:   24:    }
+       10:   25:    else if ( args[i] == "Hey!" ) {
+        1:   26:      std::cout << "Huh?" << std::endl;
+        -:   27:    }
+        -:   28:    else {
+        9:   29:      std::cout << "Oops!" << std::endl;
+        -:   30:    }
+        -:   31:  }
+        -:   32:
+        6:   33:  return 0;
+       12:   34:}
+        6:   35:/*EOF*/

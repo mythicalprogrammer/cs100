@@ -1,0 +1,220 @@
+\section{gwire Class Reference}
+\label{classgwire}\index{gwire@{gwire}}
+{\tt \#include $<$gwire.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\bf{gwire} ()
+\item 
+\bf{gwire} (char wire\_\-name)
+\item 
+void \bf{set\_\-to} (char t\_\-to)
+\item 
+void \bf{set\_\-from} (char t\_\-from)
+\item 
+void \bf{set\_\-type} (string t\_\-type)
+\item 
+void \bf{set\_\-name} (char t\_\-name)
+\item 
+char \bf{get\_\-to} ()
+\item 
+char \bf{get\_\-from} ()
+\item 
+char \bf{get\_\-name} ()
+\item 
+string \bf{get\_\-type} ()
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+The class gwire Description: This class creates and connects the ending of the wires 
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{gwire@{gwire}!gwire@{gwire}}
+\index{gwire@{gwire}!gwire@{gwire}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gwire::gwire ()\hspace{0.3cm}{\tt  [inline]}}\label{classgwire_b2c0d07690fc521588d4d6256de479f7}
+
+
+The Constructor. 
+
+\begin{Code}\begin{verbatim}28   {
+29     from = ' ';
+30     to = ' ';
+31     name = ' ';
+32     type = "unknown";
+33   } 
+\end{verbatim}\end{Code}
+
+
+\index{gwire@{gwire}!gwire@{gwire}}
+\index{gwire@{gwire}!gwire@{gwire}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gwire::gwire (char {\em wire\_\-name})\hspace{0.3cm}{\tt  [inline]}}\label{classgwire_79a6885bd2bc7bd2b785d35e307da047}
+
+
+The Constructor with parameters. 
+
+\begin{Code}\begin{verbatim}37   {
+38     this->name = wire_name;
+39   }
+\end{verbatim}\end{Code}
+
+
+
+
+\subsection{Member Function Documentation}
+\index{gwire@{gwire}!get_from@{get\_\-from}}
+\index{get_from@{get\_\-from}!gwire@{gwire}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char gwire::get\_\-from ()\hspace{0.3cm}{\tt  [inline]}}\label{classgwire_5e0c4873abcb90c97933b8cde0b189bb}
+
+
+Returns from
+
+\begin{Desc}
+\item[Returns:]Returns a char \end{Desc}
+
+
+\begin{Code}\begin{verbatim}98   {
+99     return this->from;
+100   }
+\end{verbatim}\end{Code}
+
+
+\index{gwire@{gwire}!get_name@{get\_\-name}}
+\index{get_name@{get\_\-name}!gwire@{gwire}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char gwire::get\_\-name ()\hspace{0.3cm}{\tt  [inline]}}\label{classgwire_cf26b05940c9e04eb9e21c2c2f003440}
+
+
+Returns name
+
+\begin{Desc}
+\item[Returns:]Returns a string \end{Desc}
+
+
+\begin{Code}\begin{verbatim}108   {
+109     return this->name;
+110   }
+\end{verbatim}\end{Code}
+
+
+\index{gwire@{gwire}!get_to@{get\_\-to}}
+\index{get_to@{get\_\-to}!gwire@{gwire}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char gwire::get\_\-to ()\hspace{0.3cm}{\tt  [inline]}}\label{classgwire_2b95d40cce64ea99a613b42b0c39059a}
+
+
+Returns to
+
+\begin{Desc}
+\item[Returns:]Returns a char \end{Desc}
+
+
+\begin{Code}\begin{verbatim}88   {
+89     return this->to;
+90   }
+\end{verbatim}\end{Code}
+
+
+\index{gwire@{gwire}!get_type@{get\_\-type}}
+\index{get_type@{get\_\-type}!gwire@{gwire}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}string gwire::get\_\-type ()\hspace{0.3cm}{\tt  [inline]}}\label{classgwire_063e44070e2e249a02f9ea8f821464e7}
+
+
+Returns type
+
+\begin{Desc}
+\item[Returns:]Returns a string \end{Desc}
+
+
+\begin{Code}\begin{verbatim}118   {
+119     return this->type;
+120   }
+\end{verbatim}\end{Code}
+
+
+\index{gwire@{gwire}!set_from@{set\_\-from}}
+\index{set_from@{set\_\-from}!gwire@{gwire}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gwire::set\_\-from (char {\em t\_\-from})\hspace{0.3cm}{\tt  [inline]}}\label{classgwire_ab5ce75b5865941097bccc79b2ddf169}
+
+
+Set the from value
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em from}]A char parameter \end{description}
+\end{Desc}
+
+
+\begin{Code}\begin{verbatim}58   {
+59     this->from = t_from;
+60   }
+\end{verbatim}\end{Code}
+
+
+\index{gwire@{gwire}!set_name@{set\_\-name}}
+\index{set_name@{set\_\-name}!gwire@{gwire}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gwire::set\_\-name (char {\em t\_\-name})\hspace{0.3cm}{\tt  [inline]}}\label{classgwire_f5623801c87c4331b16088d816b9f101}
+
+
+Set the name
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em name}]A string parameter \end{description}
+\end{Desc}
+
+
+\begin{Code}\begin{verbatim}78   {
+79     this->name = t_name;
+80   }
+\end{verbatim}\end{Code}
+
+
+\index{gwire@{gwire}!set_to@{set\_\-to}}
+\index{set_to@{set\_\-to}!gwire@{gwire}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gwire::set\_\-to (char {\em t\_\-to})\hspace{0.3cm}{\tt  [inline]}}\label{classgwire_20b455bf23110afaf1af37d6f4b280d9}
+
+
+Set the to value
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em to}]A char parameter \end{description}
+\end{Desc}
+
+
+\begin{Code}\begin{verbatim}48   {
+49     this->to = t_to;
+50   }
+\end{verbatim}\end{Code}
+
+
+\index{gwire@{gwire}!set_type@{set\_\-type}}
+\index{set_type@{set\_\-type}!gwire@{gwire}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gwire::set\_\-type (string {\em t\_\-type})\hspace{0.3cm}{\tt  [inline]}}\label{classgwire_c57ccf4197b84bf0f66e9e25b739fdb5}
+
+
+Set the type
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em type}]A string parameter \end{description}
+\end{Desc}
+
+
+\begin{Code}\begin{verbatim}68   {
+69     this->type = t_type;
+70   }
+\end{verbatim}\end{Code}
+
+
+
+
+The documentation for this class was generated from the following file:\begin{CompactItemize}
+\item 
+\bf{gwire.h}\end{CompactItemize}

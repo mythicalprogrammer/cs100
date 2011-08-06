@@ -1,0 +1,244 @@
+// Course:            CS 12 2005 Spring
+//
+// Lecture Section:   01
+// Lab Section:       22
+// Assignment #:      5
+//
+// First Name:        Quoc
+// Last Name:         Doan
+// Login id:          qdoan001
+// Student id:        860-75-9993
+//
+// Study group:       Sang Phan, Nam, Jessie, Scott, Moises, etc... ACM clubs
+//                    
+//
+// =======================================================================
+//LIBRARIES-----------------------------------//
+#include "termtextviewer.h"
+#include <iostream>
+#include <string>
+#include <fstream>
+
+using namespace std;
+
+//--------CONSTRUTORS-------------//
+
+TermTextViewer::TermTextViewer()
+{
+
+  this->file_name = "";
+  this->text = "";	
+  this->cur_text_index = 0;
+  this->next_page = true;
+
+}
+
+TermTextViewer::TermTextViewer( const std::string & name_of_file )
+{
+  this->file_name = name_of_file;
+  this->text = "";	
+  this->cur_text_index = 0;
+  this->next_page = true;
+}
+
+//----------------------------------//
+
+void TermTextViewer::setFile( const std::string & name_of_file)
+{
+  
+  this->file_name = name_of_file;
+
+}
+
+//---------------- TO VIEW FILE----------------------//
+
+void TermTextViewer::view()
+{
+
+  //VARIABLES
+
+  char quit_more[100];
+  string text = ""; //string to store the whole text file on the string
+
+  string temp = "";
+ 
+  ifstream infile; 
+ 
+  //LOOP VARIABLES
+  int j = 0;
+  int i = 0;
+ 
+
+  //OPEN TEXT FILE
+  infile.open(file_name.c_str());
+
+
+ //cout << text; //DEBUG TESTOR IGONORE IT
+
+  int size_text = 0; //SIZE OF TEXT FILE
+  char c; //TEMP CHAR IT'LL HELP STORE WHOLE TXT FILE INTO 1 STRING
+ 
+
+  //ERROR CHECK IF FILE DOES NOT EXIST
+ if(!infile)
+   {
+     cout <<endl;
+     cout <<endl;
+     cout<<"||------------ERROR-----------||"<<endl;
+     cout<<"||----TEXT-DOES-NOT-EXIST-----||"<<endl;
+     cout << endl;
+     cout << endl;
+     cout << endl;
+     cout << endl;
+     cout << endl;
+     cout << endl;
+     cout << endl;
+     cout << endl;
+     cout << endl;
+     this->next_page = false;
+   }
+
+
+ //LOOP TO STORE ENTIRE FILE INTO 1 STRING
+ while(infile)
+   {
+     
+     if (infile.eof())
+       break;
+
+     infile.get(c);
+     text += c;
+     size_text++;
+
+
+
+   }
+ 
+
+
+
+
+
+ 
+ while (next_page == true) //LOOP TO CONTINUE TO PRINT 20 LINES EACH
+   {
+
+     for(i=0; i<20; i++) //LOOP FOR 20 LINES
+       { 
+ 
+ /* DEBUG CODE IGNORE IT
+  for(j=0; j<48; j++)
+    {cout<<text[j];
+    }
+  cout<<endl;
+  */
+
+	 
+
+	 if(static_cast<unsigned int>(cur_text_index)<=text.size())
+	   { //IF LOOP WHILE WITHIN THE BOUNDS OF THE TEXT SIZE
+
+	    	     for(j=cur_text_index; j < cur_text_index + 48; j++ )
+		       { //LOOP FOR 47 CHAR 
+	  
+
+
+		 if(text[j]=='\n')
+		   { //LOOP TO PRESERVE THE NEW LINE CHAR IN TEXT
+		
+		     temp=text.substr(cur_text_index, (j-cur_text_index));
+		     
+		     cur_text_index = j + 1;
+		     
+		     
+		     
+		     cout<<temp<<endl;
+		     j=cur_text_index + 48;
+		   } 
+		 
+		 if(j==cur_text_index + 47)
+		   {//LOOP TO OUT PUT 48 CHAR WITHOUT SLICING A WORD
+		     
+		     temp=text.substr(cur_text_index, (j-cur_text_index));
+		     
+		     int p = temp.find_last_of(" ");
+		     
+		     temp=temp.substr(0,p);
+		     
+		     
+		     //cout << temp.size() << endl; //debugger ignore
+		     cout << temp<<endl;
+		     
+		     cur_text_index = cur_text_index+p+1;
+		     
+		     //j=cur_index + 48; //ignore does same thing as break;
+		     
+		     break;
+		   }
+		 
+	    
+	       } //end for
+	     //cout<<text;   
+	   }
+	 	   
+       }
+
+
+     if(j<size_text) // LOOP TO SEE USER INPUT	   
+       {            //TO SEE IF THEY WANT TO 
+	            //QUIT OR CONTINUE
+
+	 cout << "--More--" <<endl;
+
+	cin.getline(quit_more,100);
+	
+    
+	 if(quit_more[0] == 'q')
+	   this->next_page =false;
+
+	 if(quit_more[0] =='\r')
+	   this->next_page =true;
+	   }
+	 
+	 if(j>=size_text)	   
+	   {
+	     cout << "--End of Text--" <<endl;
+	     cout << endl;
+	     cout << endl;
+	     cout << endl;
+	     cout << endl;
+	     cout << endl;
+	     cout << endl;
+	     cout << endl;
+	     cout << endl;
+	     cout << endl;
+	     cout << endl;
+	     cout << endl;
+	     cout << endl;     
+	     this->next_page =false;
+	     infile.close();
+	   }
+	 
+
+
+	     infile.close();
+} 
+
+
+
+ 
+}
+
+void TermTextViewer::readTextFromFile()
+{
+
+
+
+
+
+}
+
+void TermTextViewer::showNextPage()
+{
+    this->next_page = true;
+}

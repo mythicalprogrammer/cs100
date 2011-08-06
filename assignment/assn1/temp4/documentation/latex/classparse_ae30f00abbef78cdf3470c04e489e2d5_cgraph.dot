@@ -1,0 +1,29 @@
+digraph G
+{
+  edge [fontname="FreeSans.ttf",fontsize=10,labelfontname="FreeSans.ttf",labelfontsize=10];
+  node [fontname="FreeSans.ttf",fontsize=10,shape=record];
+  rankdir=LR;
+  Node1 [label="parse::make_circuit",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [color="midnightblue",fontsize=10,style="solid"];
+  Node2 [label="parse::aux",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classparse.html#6b70833265740dfc6f917208fa3432c3"];
+  Node2 -> Node3 [color="midnightblue",fontsize=10,style="solid"];
+  Node3 [label="parse::check",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classparse.html#e33e3dfba4c1957539a09fbf146aff53"];
+  Node3 -> Node6 [color="midnightblue",fontsize=10,style="solid"];
+  Node6 [label="gwire::set_from",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classgwire.html#ab5ce75b5865941097bccc79b2ddf169"];
+  Node3 -> Node7 [color="midnightblue",fontsize=10,style="solid"];
+  Node7 [label="gwire::set_name",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classgwire.html#f5623801c87c4331b16088d816b9f101"];
+  Node3 -> Node8 [color="midnightblue",fontsize=10,style="solid"];
+  Node8 [label="goutput::set_name",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classgoutput.html#dffc12cfe953398b21d0b37511a081ed"];
+  Node3 -> Node9 [color="midnightblue",fontsize=10,style="solid"];
+  Node9 [label="ginput::set_name",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classginput.html#f0422ac4010737b0e8c27c5853aef10b"];
+  Node3 -> Node10 [color="midnightblue",fontsize=10,style="solid"];
+  Node10 [label="gwire::set_to",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classgwire.html#20b455bf23110afaf1af37d6f4b280d9"];
+  Node3 -> Node11 [color="midnightblue",fontsize=10,style="solid"];
+  Node11 [label="gwire::set_type",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classgwire.html#c57ccf4197b84bf0f66e9e25b739fdb5"];
+  Node3 -> Node12 [color="midnightblue",fontsize=10,style="solid"];
+  Node12 [label="gate::set_type",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classgate.html#325aee2bb2231060b6bded54e1f41785"];
+  Node2 -> Node4 [color="midnightblue",fontsize=10,style="solid"];
+  Node4 [label="parse::find_gate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classparse.html#e99c66128866afddf15b2226daac80a1"];
+  Node1 -> Node5 [color="midnightblue",fontsize=10,style="solid"];
+  Node5 [label="parse::find_gate_input",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classparse.html#846fd3465af3340427831de424b23488"];
+}

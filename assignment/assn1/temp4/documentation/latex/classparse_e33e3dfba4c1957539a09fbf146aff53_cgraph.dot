@@ -1,0 +1,21 @@
+digraph G
+{
+  edge [fontname="FreeSans.ttf",fontsize=10,labelfontname="FreeSans.ttf",labelfontsize=10];
+  node [fontname="FreeSans.ttf",fontsize=10,shape=record];
+  rankdir=LR;
+  Node1 [label="parse::check",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [color="midnightblue",fontsize=10,style="solid"];
+  Node2 [label="gwire::set_from",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classgwire.html#ab5ce75b5865941097bccc79b2ddf169"];
+  Node1 -> Node3 [color="midnightblue",fontsize=10,style="solid"];
+  Node3 [label="gwire::set_name",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classgwire.html#f5623801c87c4331b16088d816b9f101"];
+  Node1 -> Node4 [color="midnightblue",fontsize=10,style="solid"];
+  Node4 [label="goutput::set_name",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classgoutput.html#dffc12cfe953398b21d0b37511a081ed"];
+  Node1 -> Node5 [color="midnightblue",fontsize=10,style="solid"];
+  Node5 [label="ginput::set_name",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classginput.html#f0422ac4010737b0e8c27c5853aef10b"];
+  Node1 -> Node6 [color="midnightblue",fontsize=10,style="solid"];
+  Node6 [label="gwire::set_to",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classgwire.html#20b455bf23110afaf1af37d6f4b280d9"];
+  Node1 -> Node7 [color="midnightblue",fontsize=10,style="solid"];
+  Node7 [label="gwire::set_type",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classgwire.html#c57ccf4197b84bf0f66e9e25b739fdb5"];
+  Node1 -> Node8 [color="midnightblue",fontsize=10,style="solid"];
+  Node8 [label="gate::set_type",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classgate.html#325aee2bb2231060b6bded54e1f41785"];
+}

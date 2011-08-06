@@ -1,0 +1,12 @@
+# INPUTS and OUTPUTS
+a: IN
+b: IN
+c: OUT
+# GATES
+X: AND
+# INPUT WIRES
+A: WIRE a to X(0)
+B: WIRE b to X(1)
+# INTERNAL WIRES
+# OUTPUT WIRES
+C: WIRE X(out) to c

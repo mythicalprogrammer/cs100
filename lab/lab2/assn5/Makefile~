@@ -1,0 +1,11 @@
+CXX=g++
+CXXFLAGS=-g -Wall -W -Werror -pedantic -ansi
+OBJECTS=termtextviewer.o
+#LIBS= -lX11 -lccc
+#LIBDIRS = -L/usr/X11R6/lib -L/usr/local/lib -L/usr/csshare/lib
+
+all:$(OBJECTS)
+	$(CXX) $(CXXFLAGS) -o a.out main.cpp $(OBJECTS)
+
+clean: 
+	rm -rf *~ a.out *.o

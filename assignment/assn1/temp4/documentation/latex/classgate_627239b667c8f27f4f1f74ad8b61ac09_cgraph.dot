@@ -1,0 +1,9 @@
+digraph G
+{
+  edge [fontname="FreeSans.ttf",fontsize=10,labelfontname="FreeSans.ttf",labelfontsize=10];
+  node [fontname="FreeSans.ttf",fontsize=10,shape=record];
+  rankdir=LR;
+  Node1 [label="gate::set_input",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled" fontcolor="black"];
+  Node1 -> Node2 [color="midnightblue",fontsize=10,style="solid"];
+  Node2 [label="gate::get_name",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classgate.html#df2445d83e0c51a5fa2cdc9c47d49038"];
+}

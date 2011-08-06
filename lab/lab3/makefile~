@@ -1,0 +1,15 @@
+#CS 100 Make Project
+SOURCES = hello.cpp #pizza.c pepperoni.c cheese.c \
+	  #mushrooms.c anchovies.c olives.c
+HEADERS = #pizza.h topping.h
+OBJS = ${SOURCES:.c=.o}
+CC = g++
+CXXFLAGS = -w -g -I/usr/local/include/sgi-stl
+RM = /bin/rm -f
+MV = /bin/mv -f
+CP = /bin/cp -f
+.c.o:
+	${CC} -c ${SOURCES} ${CXXFLAGS} 
+all: hello
+clean:
+	-${RM} pizza *.o core

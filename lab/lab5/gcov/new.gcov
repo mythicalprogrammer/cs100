@@ -1,0 +1,110 @@
+        -:    0:Source:/usr/lib/gcc/i386-redhat-linux/4.1.2/../../../../include/c++/4.1.2/new
+        -:    0:Graph:xmpl.gcno
+        -:    0:Data:xmpl.gcda
+        -:    0:Runs:6
+        -:    0:Programs:1
+        -:    1:// The -*- C++ -*- dynamic memory management header.
+        -:    2:
+        -:    3:// Copyright (C) 1994, 1996, 1997, 1998, 2000, 2001, 2002
+        -:    4:// Free Software Foundation
+        -:    5:
+        -:    6:// This file is part of GCC.
+        -:    7://
+        -:    8:// GCC is free software; you can redistribute it and/or modify
+        -:    9:// it under the terms of the GNU General Public License as published by
+        -:   10:// the Free Software Foundation; either version 2, or (at your option)
+        -:   11:// any later version.
+        -:   12:// 
+        -:   13:// GCC is distributed in the hope that it will be useful,
+        -:   14:// but WITHOUT ANY WARRANTY; without even the implied warranty of
+        -:   15:// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+        -:   16:// GNU General Public License for more details.
+        -:   17:// 
+        -:   18:// You should have received a copy of the GNU General Public License
+        -:   19:// along with GCC; see the file COPYING.  If not, write to
+        -:   20:// the Free Software Foundation, 51 Franklin Street, Fifth Floor,
+        -:   21:// Boston, MA 02110-1301, USA.
+        -:   22:
+        -:   23:// As a special exception, you may use this file as part of a free software
+        -:   24:// library without restriction.  Specifically, if other files instantiate
+        -:   25:// templates or use macros or inline functions from this file, or you compile
+        -:   26:// this file and link it with other files to produce an executable, this
+        -:   27:// file does not by itself cause the resulting executable to be covered by
+        -:   28:// the GNU General Public License.  This exception does not however
+        -:   29:// invalidate any other reasons why the executable file might be covered by
+        -:   30:// the GNU General Public License.
+        -:   31:
+        -:   32:/** @file new
+        -:   33: *  The header @c new defines several functions to manage dynamic memory and
+        -:   34: *  handling memory allocation errors; see
+        -:   35: *  http://gcc.gnu.org/onlinedocs/libstdc++/18_support/howto.html#4 for more.
+        -:   36: */
+        -:   37:
+        -:   38:#ifndef _NEW
+        -:   39:#define _NEW
+        -:   40:
+        -:   41:#include <cstddef>
+        -:   42:#include <exception>
+        -:   43:
+        -:   44:#pragma GCC visibility push(default)
+        -:   45:
+        -:   46:extern "C++" {
+        -:   47:
+        -:   48:namespace std 
+        -:   49:{
+        -:   50:  /**
+        -:   51:   *  @brief  Exception possibly thrown by @c new.
+        -:   52:   *
+        -:   53:   *  @c bad_alloc (or classes derived from it) is used to report allocation
+        -:   54:   *  errors from the throwing forms of @c new.  */
+        -:   55:  class bad_alloc : public exception 
+        -:   56:  {
+        -:   57:  public:
+        -:   58:    bad_alloc() throw() { }
+        -:   59:    // This declaration is not useless:
+        -:   60:    // http://gcc.gnu.org/onlinedocs/gcc-3.0.2/gcc_6.html#SEC118
+        -:   61:    virtual ~bad_alloc() throw();
+        -:   62:  };
+        -:   63:
+        -:   64:  struct nothrow_t { };
+        -:   65:  extern const nothrow_t nothrow;
+        -:   66:  /** If you write your own error handler to be called by @c new, it must
+        -:   67:   *  be of this type.  */
+        -:   68:  typedef void (*new_handler)();
+        -:   69:  /// Takes a replacement handler as the argument, returns the previous handler.
+        -:   70:  new_handler set_new_handler(new_handler) throw();
+        -:   71:} // namespace std
+        -:   72:
+        -:   73://@{
+        -:   74:/** These are replaceable signatures:
+        -:   75: *  - normal single new and delete (no arguments, throw @c bad_alloc on error)
+        -:   76: *  - normal array new and delete (same)
+        -:   77: *  - @c nothrow single new and delete (take a @c nothrow argument, return
+        -:   78: *    @c NULL on error)
+        -:   79: *  - @c nothrow array new and delete (same)
+        -:   80: *
+        -:   81: *  Placement new and delete signatures (take a memory address argument,
+        -:   82: *  does nothing) may not be replaced by a user's program.
+        -:   83:*/
+        -:   84:void* operator new(std::size_t) throw (std::bad_alloc);
+        -:   85:void* operator new[](std::size_t) throw (std::bad_alloc);
+        -:   86:void operator delete(void*) throw();
+        -:   87:void operator delete[](void*) throw();
+        -:   88:void* operator new(std::size_t, const std::nothrow_t&) throw();
+        -:   89:void* operator new[](std::size_t, const std::nothrow_t&) throw();
+        -:   90:void operator delete(void*, const std::nothrow_t&) throw();
+        -:   91:void operator delete[](void*, const std::nothrow_t&) throw();
+        -:   92:
+        -:   93:// Default placement versions of operator new.
+       96:   94:inline void* operator new(std::size_t, void* __p) throw() { return __p; }
+        -:   95:inline void* operator new[](std::size_t, void* __p) throw() { return __p; }
+        -:   96:
+        -:   97:// Default placement versions of operator delete.
+    #####:   98:inline void  operator delete  (void*, void*) throw() { }
+        -:   99:inline void  operator delete[](void*, void*) throw() { }
+        -:  100://@}
+        -:  101:} // extern "C++"
+        -:  102:
+        -:  103:#pragma GCC visibility pop
+        -:  104:
+        -:  105:#endif

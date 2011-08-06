@@ -1,0 +1,618 @@
+\section{parse Class Reference}
+\label{classparse}\index{parse@{parse}}
+{\tt \#include $<$parse.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\bf{parse} ()
+\item 
+\bf{parse} (string filename)
+\item 
+string \bf{get\_\-filename} ()
+\item 
+void \bf{parse\_\-it} ()
+\item 
+void \bf{check} (string temp)
+\item 
+void \bf{put\_\-gate} ()
+\item 
+int \bf{find\_\-input} (char t\_\-input)
+\item 
+int \bf{find\_\-gate} (char t\_\-gate)
+\item 
+void \bf{find\_\-gate\_\-input} (char t\_\-input, bool t\_\-val)
+\item 
+void \bf{make\_\-circuit} ()
+\item 
+void \bf{aux} ()
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+The class parsed Description: This class creates and connects the ending of the wires 
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{parse@{parse}!parse@{parse}}
+\index{parse@{parse}!parse@{parse}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}parse::parse ()\hspace{0.3cm}{\tt  [inline]}}\label{classparse_7edcdb0d3214bfdcf0d6378ac8566645}
+
+
+The Constructor. 
+
+\begin{Code}\begin{verbatim}38   {
+39    this->filename = " ";
+40   }
+\end{verbatim}\end{Code}
+
+
+\index{parse@{parse}!parse@{parse}}
+\index{parse@{parse}!parse@{parse}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}parse::parse (string {\em filename})\hspace{0.3cm}{\tt  [inline]}}\label{classparse_47982adcfa583d3d710fff6c097df024}
+
+
+The Constructor with parameter. 
+
+\begin{Code}\begin{verbatim}43   {
+44    this->filename = filename;
+45   }
+\end{verbatim}\end{Code}
+
+
+
+
+\subsection{Member Function Documentation}
+\index{parse@{parse}!aux@{aux}}
+\index{aux@{aux}!parse@{parse}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void parse::aux ()\hspace{0.3cm}{\tt  [inline]}}\label{classparse_6b70833265740dfc6f917208fa3432c3}
+
+
+\doxyref{aux()}{p.}{classparse_6b70833265740dfc6f917208fa3432c3} function is the helper function for the make\_\-circuit function This function actually calculate the table! 
+
+\begin{Code}\begin{verbatim}461 {
+462 bool done = false;
+463 while(done == false)
+464 {
+465  for(int i = 0; i < (int)gate_array.size(); ++i)
+466     {
+467       if(gate_array[i].get_dirty() == false 
+468          && gate_array[i].depend_status() == false)
+469       {
+470         gate_array[i].set_output_value(false,false);
+471       }
+472     }
+473 
+474  for(int i = 0; i < (int)gate_array.size(); ++i)
+475   {
+476     
+477    if(gate_array[i].get_dirty() == false 
+478          && gate_array[i].depend_status() == true 
+479          && gate_array[i].input_size() > 0 )
+480       {
+481         char internal_output_name = gate_array[i].get_depend();
+482         int t_index_gate = find_gate(internal_output_name);
+483         
+484         gate_array[i].set_output_value(gate_array[t_index_gate].output_value(), false);
+485       }
+486 
+487   }
+488 
+489  for(int i = 0; i < (int)gate_array.size(); ++i)
+490   {
+491     
+492    if(gate_array[i].get_dirty() == false 
+493          && gate_array[i].depend_status() == true)
+494       {
+495         char internal_output_name = gate_array[i].get_depend();
+496         int t_index_gate = find_gate(internal_output_name);
+497 
+498         char internal_output_name2 = gate_array[i].get_depend2();
+499         int t_index_gate2 = find_gate(internal_output_name2);
+500         
+501         gate_array[i].set_output_value(gate_array[t_index_gate].output_value(),
+502                                        gate_array[t_index_gate2].output_value());
+503       }//end if
+504 
+505   }//end for
+506 bool check = true;
+507  for(int i = 0; i < (int)gate_array.size(); ++i)
+508  { 
+509   if(gate_array[i].get_dirty()==false)
+510    { check = false;}
+511  }
+512 if(check == true)
+513 done = true;
+514 
+515 }//end while
+516 
+517 for(int i = 0; i < (int)gate_array.size(); ++i)
+518 {
+519   if(gate_array[i].check_last_gate()==true)
+520   {
+521     logic_answer.push_back(gate_array[i].output_value());
+522   }
+523 
+524 }//end for
+525 
+526 for(int i = 0; i < (int)gate_array.size(); ++i)
+527 {
+528 gate_array[i].set_dirtybit(false);
+529 }
+530 
+531 
+532 
+533 }
+\end{verbatim}\end{Code}
+
+
+
+
+Here is the call graph for this function:\index{parse@{parse}!check@{check}}
+\index{check@{check}!parse@{parse}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void parse::check (string {\em temp})\hspace{0.3cm}{\tt  [inline]}}\label{classparse_e33e3dfba4c1957539a09fbf146aff53}
+
+
+The check function parse gates, wires, and inputs \& outputs.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em temp}]A string parameter parse stuff \end{description}
+\end{Desc}
+
+
+\begin{Code}\begin{verbatim}159 {
+160   size_t found = -1;
+161   
+162   //input and output
+163   string input = "IN";
+164   string output = "OUT";
+165   
+166   //gates
+167   string or_gate = "OR";
+168   string and_gate = "AND";
+169   string not_gate = "NOT";
+170   
+171   //wires
+172   string input_wire = "to";
+173   string wire = "WIRE";
+174 
+175    /* inputs outputs*/
+176    //input
+177    found=temp.find(input);
+178    if(found!=string::npos)
+179      {
+180        
+181        ginput temp_input;
+182        temp_input.set_name(temp[0]);
+183        in_array.push_back(temp_input);
+184      }
+185    //output
+186    found=temp.find(output);
+187    if(found!=string::npos)
+188      {
+189 
+190        goutput temp_output;
+191        temp_output.set_name(temp[0]);
+192        out_array.push_back(temp_output);
+193      }
+194     /* gates */
+195    //and
+196    found=temp.find(and_gate);
+197    if(found!=string::npos)
+198      {
+199 
+200        gate temp_gate(temp[0]);
+201        temp_gate.set_type(and_gate);
+202        gate_array.push_back(temp_gate);
+203      }
+204    //or
+205    found=temp.find(or_gate);
+206    if(found!=string::npos)
+207      {
+208 
+209        gate temp_gate(temp[0]);
+210        temp_gate.set_type(or_gate);
+211        gate_array.push_back(temp_gate);
+212      }
+213    //not
+214    found=temp.find(not_gate);
+215    if(found!=string::npos)
+216      {
+217 
+218        gate temp_gate(temp[0]);
+219        temp_gate.set_type(not_gate);
+220        gate_array.push_back(temp_gate);
+221      }
+222 /*wires*/
+223    //from
+224    found=temp.find(wire);
+225    gwire t_gwire;
+226    if(found!=string::npos)
+227    { 
+228 
+229      t_gwire.set_name(temp[0]);
+230      t_gwire.set_from(temp[found+5]);
+231 
+232 
+233    }    
+234    //to
+235    found=temp.find(input_wire);
+236    if(found!=string::npos)
+237    {
+238 
+239      t_gwire.set_to(temp[found+3]);
+240      t_gwire.set_type(TYPE);
+241      gwire_array.push_back(t_gwire);   
+242    }
+243 
+244 
+245 
+246 }
+\end{verbatim}\end{Code}
+
+
+
+
+Here is the call graph for this function:\index{parse@{parse}!find_gate@{find\_\-gate}}
+\index{find_gate@{find\_\-gate}!parse@{parse}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int parse::find\_\-gate (char {\em t\_\-gate})\hspace{0.3cm}{\tt  [inline]}}\label{classparse_e99c66128866afddf15b2226daac80a1}
+
+
+find\_\-gate is a helper function that return the index where the gate rises
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em t\_\-gate}]A char variable represent the gate name \end{description}
+\end{Desc}
+
+
+\begin{Code}\begin{verbatim}305 {
+306   int i;
+307   for(i=0; i < (int)gate_array.size(); ++i)
+308   {
+309      if(gate_array[i].get_name() == t_gate)
+310         break;
+311   }
+312  return i;
+313 } 
+\end{verbatim}\end{Code}
+
+
+\index{parse@{parse}!find_gate_input@{find\_\-gate\_\-input}}
+\index{find_gate_input@{find\_\-gate\_\-input}!parse@{parse}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void parse::find\_\-gate\_\-input (char {\em t\_\-input}, bool {\em t\_\-val})\hspace{0.3cm}{\tt  [inline]}}\label{classparse_846fd3465af3340427831de424b23488}
+
+
+find\_\-gate\_\-input is a helper function to set gate's values /param t\_\-input Look for the input name /param t\_\-val Set the input value 
+
+\begin{Code}\begin{verbatim}322 {
+323 
+324   for(int i=0; i < (int)gate_array.size(); ++i)
+325   {
+326    gate_array[i].set_input(t_input,t_val); 
+327   }
+328 
+329 } 
+\end{verbatim}\end{Code}
+
+
+\index{parse@{parse}!find_input@{find\_\-input}}
+\index{find_input@{find\_\-input}!parse@{parse}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int parse::find\_\-input (char {\em t\_\-input})\hspace{0.3cm}{\tt  [inline]}}\label{classparse_efd7c26c612716f3b9d1f0ccfc1152f3}
+
+
+find\_\-input is a helper function that return the index where the input rises
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em t\_\-input}]A char variable \end{description}
+\end{Desc}
+
+
+\begin{Code}\begin{verbatim}288 {
+289   int i;
+290   for(i=0; i < (int)in_array.size(); ++i)
+291   {
+292      if(in_array[i].get_name() == t_input)
+293         break;
+294   }
+295  return i;
+296 } 
+\end{verbatim}\end{Code}
+
+
+\index{parse@{parse}!get_filename@{get\_\-filename}}
+\index{get_filename@{get\_\-filename}!parse@{parse}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}string parse::get\_\-filename ()\hspace{0.3cm}{\tt  [inline]}}\label{classparse_dcc2e4774681940111f152623d279594}
+
+
+Return filename
+
+\begin{Desc}
+\item[Returns:]Returns the text file name \end{Desc}
+
+
+\begin{Code}\begin{verbatim}54   {
+55    return this->filename;
+56   }
+\end{verbatim}\end{Code}
+
+
+\index{parse@{parse}!make_circuit@{make\_\-circuit}}
+\index{make_circuit@{make\_\-circuit}!parse@{parse}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void parse::make\_\-circuit ()\hspace{0.3cm}{\tt  [inline]}}\label{classparse_ae30f00abbef78cdf3470c04e489e2d5}
+
+
+\doxyref{make\_\-circuit()}{p.}{classparse_ae30f00abbef78cdf3470c04e489e2d5} make the circuit and output the table 
+
+\begin{Code}\begin{verbatim}336 {
+337   bool finish = false;
+338   int num_inputs = in_array.size();
+339   int table_size = (int)pow(2,num_inputs);
+340   int vector_size = table_size * num_inputs;
+341 
+342 
+343   int iter = table_size;
+344 
+345   for(int i=0; i < (int)vector_size; ++i)
+346    {
+347     logic_table.push_back(false);
+348 
+349    }  
+350 
+351    bool num = true;
+352    int i = 0;
+353    int j = 0 ;
+354   while (num)
+355   {
+356    if(j < num_inputs)
+357    {
+358 
+359      i = 0+j;
+360    }
+361    bool toggle = false;
+362 
+363    iter = iter/2;
+364 
+365  
+366   while(i < vector_size)
+367   {
+368 
+369 
+370       for(int k = 0; k < iter; ++k)
+371       {
+372 
+373        logic_table[i]=toggle;
+374 
+375        i+=num_inputs;
+376           
+377       }
+378 
+379    if(toggle == false)
+380      toggle = true;
+381    else if(toggle == true)
+382      toggle = false;
+383 
+384 
+385  
+386    
+387   }//end while vec
+388    if(iter == 1)
+389     num = false;
+390   ++j;
+391  } //end while
+392 
+393 
+394 int m = 0;
+395 
+396   while(finish == false)
+397   {
+398 
+399 
+400 
+401 
+402 
+403 
+404  for( int w =0; w < (int)num_inputs; ++w) 
+405    {
+406      find_gate_input(in_array[w].get_name(),logic_table[m]);
+407 
+408      ++m;
+409    }
+410 
+411 
+412     aux();
+413 
+414    if(m > vector_size)
+415    finish = true; 
+416 
+417   } 
+418 
+419 
+420 
+421 for(int i = 0; i < (int)in_array.size(); ++i)
+422 {
+423   cout<<in_array[i].get_name()<<"    ";
+424 }
+425 cout<<"|";
+426 for(int i=0; i< (int)out_array.size(); ++i)
+427 {
+428   cout<<"    "<<out_array[i].get_name();
+429 }
+430 cout<<endl;
+431 int max_slash = (((in_array.size()+out_array.size())*5)+1);
+432 
+433 for(int i = 0; i < max_slash; ++i)
+434 cout<<"-";
+435 cout<<endl;
+436 int print_endl = 0;
+437 int iter_l = 0;
+438 for(int i = 0; i < (int)vector_size; ++i)
+439  {
+440   cout<<logic_table[i]<< "    ";
+441   ++print_endl;
+442   
+443   if(print_endl == num_inputs)
+444   {
+445     cout<<"|    "<<logic_answer[iter_l];
+446     ++ iter_l;  
+447     cout<<endl;
+448     print_endl = 0;
+449   }
+450 
+451  }
+452 
+453 
+454 }
+\end{verbatim}\end{Code}
+
+
+
+
+Here is the call graph for this function:\index{parse@{parse}!parse_it@{parse\_\-it}}
+\index{parse_it@{parse\_\-it}!parse@{parse}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void parse::parse\_\-it ()\hspace{0.3cm}{\tt  [inline]}}\label{classparse_ff036196f92083ef47aa716c14346808}
+
+
+This function will parse the whole file it also does the tables 
+
+\begin{Code}\begin{verbatim}64   {
+65     string temp = "";
+66     string text = "";
+67   int size_text = 0;
+68   ifstream infile; 
+69   char c = ' ';
+70  
+71   
+72 
+73   //OPEN TEXT FILE
+74   infile.open(filename.c_str());
+75 
+76 
+77   while(infile)
+78   {
+79      
+80     if (infile.eof())
+81        break;
+82 
+83     infile.get(c);
+84     text += c;
+85     size_text++;
+86 
+87   }//end while
+88 
+89  
+90    int i = 0;
+91    temp ="";
+92    bool ignore = false;
+93 
+94 
+95   while(i < size_text)
+96   {
+97     string input_w = "INPUT";
+98     string intern_w = "INTERNAL";
+99     string output_w = "OUTPUT";
+100     string wire_w = "WIRES";
+101     size_t found = -1;
+102 
+103 
+104 
+105     /*check each lines*/
+106 
+107     if(text[i] == '#')
+108     {
+109       ignore = true;
+110     }//end if
+111     while(text[i] != '\n' ) // while c is not a char
+112     {
+113       temp += text[i];
+114       ++i;
+115     }//end while
+116 
+117      if(ignore == true)
+118      {
+119        found=temp.find(wire_w);
+120        if(found!=string::npos)
+121        {
+122          found=temp.find(input_w);
+123          if(found!=string::npos)
+124          TYPE = "INPUT";
+125 
+126          found=temp.find(output_w);
+127          if(found!=string::npos)
+128          TYPE = "OUTPUT";
+129 
+130          found=temp.find(intern_w);
+131          if(found!=string::npos)
+132          TYPE = "INTERNAL";
+133        }//end if
+134      }//end if
+135 
+136      if(ignore == false)
+137      check(temp);// CEHCK;
+138 
+139  
+140    ++i;
+141    temp="";
+142    ignore = false;
+143  } //end while
+144  
+145   put_gate();
+146  
+147   make_circuit();
+148 
+149    infile.close(); // close file
+150 }// end parse_it function
+\end{verbatim}\end{Code}
+
+
+
+
+Here is the call graph for this function:\index{parse@{parse}!put_gate@{put\_\-gate}}
+\index{put_gate@{put\_\-gate}!parse@{parse}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void parse::put\_\-gate ()\hspace{0.3cm}{\tt  [inline]}}\label{classparse_76cb7cf711a0ce14aceeb27e4d2fb2a7}
+
+
+put\_\-gate just basically insert inputs and outputs and flags 
+
+\begin{Code}\begin{verbatim}254 {
+255   for(int i = 0; i < (int)gwire_array.size(); ++i)
+256   {
+257     if(gwire_array[i].get_type() == "INPUT")
+258     {
+259       int gate_t = find_gate(gwire_array[i].get_to());
+260       int input_t = find_input(gwire_array[i].get_from());
+261 
+262       gate_array[gate_t].add_input(in_array[input_t]);
+263     }
+264     else if(gwire_array[i].get_type() == "INTERNAL")
+265     {
+266       int gate_t = find_gate(gwire_array[i].get_to());
+267 
+268       gate_array[gate_t].set_depend(gwire_array[i].get_from());
+269       
+270     }
+271     else if(gwire_array[i].get_type() == "OUTPUT")
+272     {
+273       int gate_t = find_gate(gwire_array[i].get_from());
+274 
+275       gate_array[gate_t].set_output(gwire_array[i].get_to());
+276       
+277     }
+278   }
+279 }
+\end{verbatim}\end{Code}
+
+
+
+
+Here is the call graph for this function:
+
+The documentation for this class was generated from the following file:\begin{CompactItemize}
+\item 
+\bf{parse.h}\end{CompactItemize}

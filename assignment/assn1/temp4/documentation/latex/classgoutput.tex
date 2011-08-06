@@ -1,0 +1,119 @@
+\section{goutput Class Reference}
+\label{classgoutput}\index{goutput@{goutput}}
+{\tt \#include $<$goutput.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\bf{goutput} ()
+\item 
+\bf{goutput} (bool val)
+\item 
+bool \bf{value} ()
+\item 
+void \bf{set\_\-name} (char name)
+\item 
+char \bf{get\_\-name} ()
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+The class goutput Description: This class holds the gate output values 
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{goutput@{goutput}!goutput@{goutput}}
+\index{goutput@{goutput}!goutput@{goutput}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}goutput::goutput ()\hspace{0.3cm}{\tt  [inline]}}\label{classgoutput_b1a54ad7dd6633382943055bd5bd6138}
+
+
+The Constructor. 
+
+\begin{Code}\begin{verbatim}27   {
+28    this->val = false; 
+29    this->name = name;
+30   }
+\end{verbatim}\end{Code}
+
+
+\index{goutput@{goutput}!goutput@{goutput}}
+\index{goutput@{goutput}!goutput@{goutput}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}goutput::goutput (bool {\em val})\hspace{0.3cm}{\tt  [inline]}}\label{classgoutput_35f3446ffe89070f7c82047b75712c67}
+
+
+The Constructor with parameter. 
+
+\begin{Code}\begin{verbatim}34   {
+35     this->val = val;
+36   }
+\end{verbatim}\end{Code}
+
+
+
+
+\subsection{Member Function Documentation}
+\index{goutput@{goutput}!get_name@{get\_\-name}}
+\index{get_name@{get\_\-name}!goutput@{goutput}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char goutput::get\_\-name ()\hspace{0.3cm}{\tt  [inline]}}\label{classgoutput_01be3c8297b3752bc2ece17e8626b3fc}
+
+
+Return name
+
+\begin{Desc}
+\item[Returns:]Returns a char \end{Desc}
+
+
+\begin{Code}\begin{verbatim}65   {
+66     return this->name;
+67   }
+\end{verbatim}\end{Code}
+
+
+\index{goutput@{goutput}!set_name@{set\_\-name}}
+\index{set_name@{set\_\-name}!goutput@{goutput}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void goutput::set\_\-name (char {\em name})\hspace{0.3cm}{\tt  [inline]}}\label{classgoutput_dffc12cfe953398b21d0b37511a081ed}
+
+
+Set the name
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em name}]A string paramater \end{description}
+\end{Desc}
+
+
+\begin{Code}\begin{verbatim}55   {
+56     this->name = name;
+57   }
+\end{verbatim}\end{Code}
+
+
+\index{goutput@{goutput}!value@{value}}
+\index{value@{value}!goutput@{goutput}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}bool goutput::value ()\hspace{0.3cm}{\tt  [inline]}}\label{classgoutput_e4840e1ff1d82fd27aa0076d64ae89ad}
+
+
+Return the value
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em val}]A bool \end{description}
+\end{Desc}
+\begin{Desc}
+\item[Returns:]Returns a bool \end{Desc}
+
+
+\begin{Code}\begin{verbatim}45   {
+46     return this->val;
+47   }  
+\end{verbatim}\end{Code}
+
+
+
+
+The documentation for this class was generated from the following file:\begin{CompactItemize}
+\item 
+\bf{goutput.h}\end{CompactItemize}

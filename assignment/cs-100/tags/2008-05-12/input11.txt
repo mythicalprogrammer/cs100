@@ -1,0 +1,25 @@
+# INPUTS and OUTPUTS
+a: IN
+b: IN
+c: IN
+d: OUT
+# GATES
+X: NOT
+Y: AND
+Z: OR
+W: NOT
+V: NOT
+T: AND
+# INPUT WIRES
+A: WIRE a to Y(0)
+B: WIRE b to X(0)
+C: WIRE b to Z(0)
+D: WIRE c to Z(1)
+# INTERNAL WIRES
+E: WIRE Y(out) to W(0)
+F: WIRE X(out) to Y(1)
+G: WIRE Z(out) to V(0)
+H: WIRE W(out) to T(0)
+I: WIRE V(out) to T(1)
+# OUTPUT WIRES
+J: WIRE T(out) to d

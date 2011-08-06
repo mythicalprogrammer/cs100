@@ -1,0 +1,137 @@
+        -:    0:Source:/usr/lib/gcc/i386-redhat-linux/4.1.2/../../../../include/c++/4.1.2/bits/allocator.h
+        -:    0:Graph:xmpl.gcno
+        -:    0:Data:xmpl.gcda
+        -:    0:Runs:6
+        -:    0:Programs:1
+        -:    1:// Allocators -*- C++ -*-
+        -:    2:
+        -:    3:// Copyright (C) 2001, 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
+        -:    4://
+        -:    5:// This file is part of the GNU ISO C++ Library.  This library is free
+        -:    6:// software; you can redistribute it and/or modify it under the
+        -:    7:// terms of the GNU General Public License as published by the
+        -:    8:// Free Software Foundation; either version 2, or (at your option)
+        -:    9:// any later version.
+        -:   10:
+        -:   11:// This library is distributed in the hope that it will be useful,
+        -:   12:// but WITHOUT ANY WARRANTY; without even the implied warranty of
+        -:   13:// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+        -:   14:// GNU General Public License for more details.
+        -:   15:
+        -:   16:// You should have received a copy of the GNU General Public License along
+        -:   17:// with this library; see the file COPYING.  If not, write to the Free
+        -:   18:// Software Foundation, 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
+        -:   19:// USA.
+        -:   20:
+        -:   21:// As a special exception, you may use this file as part of a free software
+        -:   22:// library without restriction.  Specifically, if other files instantiate
+        -:   23:// templates or use macros or inline functions from this file, or you compile
+        -:   24:// this file and link it with other files to produce an executable, this
+        -:   25:// file does not by itself cause the resulting executable to be covered by
+        -:   26:// the GNU General Public License.  This exception does not however
+        -:   27:// invalidate any other reasons why the executable file might be covered by
+        -:   28:// the GNU General Public License.
+        -:   29:
+        -:   30:/*
+        -:   31: * Copyright (c) 1996-1997
+        -:   32: * Silicon Graphics Computer Systems, Inc.
+        -:   33: *
+        -:   34: * Permission to use, copy, modify, distribute and sell this software
+        -:   35: * and its documentation for any purpose is hereby granted without fee,
+        -:   36: * provided that the above copyright notice appear in all copies and
+        -:   37: * that both that copyright notice and this permission notice appear
+        -:   38: * in supporting documentation.  Silicon Graphics makes no
+        -:   39: * representations about the suitability of this software for any
+        -:   40: * purpose.  It is provided "as is" without express or implied warranty.
+        -:   41: */
+        -:   42:
+        -:   43:/** @file allocator.h
+        -:   44: *  This is an internal header file, included by other library headers.
+        -:   45: *  You should not attempt to use it directly.
+        -:   46: */
+        -:   47:
+        -:   48:#ifndef _ALLOCATOR_H
+        -:   49:#define _ALLOCATOR_H 1
+        -:   50:
+        -:   51:// Define the base class to std::allocator.
+        -:   52:#include <bits/c++allocator.h>
+        -:   53:
+        -:   54:namespace std
+        -:   55:{
+        -:   56:  template<typename _Tp>
+        -:   57:    class allocator;
+        -:   58:
+        -:   59:  /// allocator<void> specialization.
+        -:   60:  template<>
+        -:   61:    class allocator<void>
+        -:   62:    {
+        -:   63:    public:
+        -:   64:      typedef size_t      size_type;
+        -:   65:      typedef ptrdiff_t   difference_type;
+        -:   66:      typedef void*       pointer;
+        -:   67:      typedef const void* const_pointer;
+        -:   68:      typedef void        value_type;
+        -:   69:
+        -:   70:      template<typename _Tp1>
+        -:   71:        struct rebind
+        -:   72:        { typedef allocator<_Tp1> other; };
+        -:   73:    };
+        -:   74:
+        -:   75:  /**
+        -:   76:   * @brief  The "standard" allocator, as per [20.4].
+        -:   77:   *
+        -:   78:   *  Further details:
+        -:   79:   *  http://gcc.gnu.org/onlinedocs/libstdc++/20_util/allocator.html
+        -:   80:   */
+        -:   81:  template<typename _Tp>
+        -:   82:    class allocator: public __glibcxx_base_allocator<_Tp>
+        -:   83:    {
+        -:   84:   public:
+        -:   85:      typedef size_t     size_type;
+        -:   86:      typedef ptrdiff_t  difference_type;
+        -:   87:      typedef _Tp*       pointer;
+        -:   88:      typedef const _Tp* const_pointer;
+        -:   89:      typedef _Tp&       reference;
+        -:   90:      typedef const _Tp& const_reference;
+        -:   91:      typedef _Tp        value_type;
+        -:   92:
+        -:   93:      template<typename _Tp1>
+        -:   94:        struct rebind
+        -:   95:        { typedef allocator<_Tp1> other; };
+        -:   96:
+        6:   97:      allocator() throw() { }
+        -:   98:
+       18:   99:      allocator(const allocator& __a) throw()
+       18:  100:      : __glibcxx_base_allocator<_Tp>(__a) { }
+        -:  101:
+        -:  102:      template<typename _Tp1>
+        -:  103:        allocator(const allocator<_Tp1>&) throw() { }
+        -:  104:
+       24:  105:      ~allocator() throw() { }
+        -:  106:
+        -:  107:      // Inherit everything else.
+        -:  108:    };
+        -:  109:
+        -:  110:  template<typename _T1, typename _T2>
+        -:  111:    inline bool
+        -:  112:    operator==(const allocator<_T1>&, const allocator<_T2>&)
+        -:  113:    { return true; }
+        -:  114:
+        -:  115:  template<typename _T1, typename _T2>
+        -:  116:    inline bool
+        -:  117:    operator!=(const allocator<_T1>&, const allocator<_T2>&)
+        -:  118:    { return false; }
+        -:  119:
+        -:  120:  // Inhibit implicit instantiations for required instantiations,
+        -:  121:  // which are defined via explicit instantiations elsewhere.
+        -:  122:  // NB: This syntax is a GNU extension.
+        -:  123:#if _GLIBCXX_EXTERN_TEMPLATE
+        -:  124:  extern template class allocator<char>;
+        -:  125:  extern template class allocator<wchar_t>;
+        -:  126:#endif
+        -:  127:
+        -:  128:  // Undefine.
+        -:  129:#undef __glibcxx_base_allocator
+        -:  130:} // namespace std
+        -:  131:
+        -:  132:#endif

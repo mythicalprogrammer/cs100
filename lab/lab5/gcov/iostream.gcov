@@ -1,0 +1,84 @@
+        -:    0:Source:/usr/lib/gcc/i386-redhat-linux/4.1.2/../../../../include/c++/4.1.2/iostream
+        -:    0:Graph:xmpl.gcno
+        -:    0:Data:xmpl.gcda
+        -:    0:Runs:6
+        -:    0:Programs:1
+        -:    1:// Standard iostream objects -*- C++ -*-
+        -:    2:
+        -:    3:// Copyright (C) 1997, 1998, 1999, 2001, 2002 Free Software Foundation, Inc.
+        -:    4://
+        -:    5:// This file is part of the GNU ISO C++ Library.  This library is free
+        -:    6:// software; you can redistribute it and/or modify it under the
+        -:    7:// terms of the GNU General Public License as published by the
+        -:    8:// Free Software Foundation; either version 2, or (at your option)
+        -:    9:// any later version.
+        -:   10:
+        -:   11:// This library is distributed in the hope that it will be useful,
+        -:   12:// but WITHOUT ANY WARRANTY; without even the implied warranty of
+        -:   13:// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+        -:   14:// GNU General Public License for more details.
+        -:   15:
+        -:   16:// You should have received a copy of the GNU General Public License along
+        -:   17:// with this library; see the file COPYING.  If not, write to the Free
+        -:   18:// Software Foundation, 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
+        -:   19:// USA.
+        -:   20:
+        -:   21:// As a special exception, you may use this file as part of a free software
+        -:   22:// library without restriction.  Specifically, if other files instantiate
+        -:   23:// templates or use macros or inline functions from this file, or you compile
+        -:   24:// this file and link it with other files to produce an executable, this
+        -:   25:// file does not by itself cause the resulting executable to be covered by
+        -:   26:// the GNU General Public License.  This exception does not however
+        -:   27:// invalidate any other reasons why the executable file might be covered by
+        -:   28:// the GNU General Public License.
+        -:   29:
+        -:   30://
+        -:   31:// ISO C++ 14882: 27.3  Standard iostream objects
+        -:   32://
+        -:   33:
+        -:   34:/** @file iostream
+        -:   35: *  This is a Standard C++ Library header. 
+        -:   36: */
+        -:   37:
+        -:   38:#ifndef _GLIBCXX_IOSTREAM
+        -:   39:#define _GLIBCXX_IOSTREAM 1
+        -:   40:
+        -:   41:#pragma GCC system_header
+        -:   42:
+        -:   43:#include <bits/c++config.h>
+        -:   44:#include <ostream>
+        -:   45:#include <istream>
+        -:   46:
+        -:   47:namespace std 
+        -:   48:{
+        -:   49:  /**
+        -:   50:   *  @name Standard Stream Objects
+        -:   51:   *
+        -:   52:   *  The &lt;iostream&gt; header declares the eight <em>standard stream
+        -:   53:   *  objects</em>.  For other declarations, see
+        -:   54:   *  http://gcc.gnu.org/onlinedocs/libstdc++/27_io/howto.html#10 and the
+        -:   55:   *  @link s27_2_iosfwd I/O forward declarations @endlink
+        -:   56:   *
+        -:   57:   *  They are required by default to cooperate with the global C library's
+        -:   58:   *  @c FILE streams, and to be available during program startup and
+        -:   59:   *  termination.  For more information, see the HOWTO linked to above.
+        -:   60:  */
+        -:   61:  //@{
+        -:   62:  extern istream cin;		///< Linked to standard input
+        -:   63:  extern ostream cout;		///< Linked to standard output
+        -:   64:  extern ostream cerr;		///< Linked to standard error (unbuffered)
+        -:   65:  extern ostream clog;		///< Linked to standard error (buffered)
+        -:   66:
+        -:   67:#ifdef _GLIBCXX_USE_WCHAR_T
+        -:   68:  extern wistream wcin;		///< Linked to standard input
+        -:   69:  extern wostream wcout;	///< Linked to standard output
+        -:   70:  extern wostream wcerr;	///< Linked to standard error (unbuffered)
+        -:   71:  extern wostream wclog;	///< Linked to standard error (buffered)
+        -:   72:#endif
+        -:   73:  //@}
+        -:   74:
+        -:   75:  // For construction of filebuffers for cout, cin, cerr, clog et. al.
+       12:   76:  static ios_base::Init __ioinit;
+        -:   77:} // namespace std
+        -:   78:
+        -:   79:#endif /* _GLIBCXX_IOSTREAM */

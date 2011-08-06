@@ -1,0 +1,38 @@
+#ifndef GINPUT_H_
+#define GINPUT_H_
+
+
+#include<iostream>
+#include<string>
+using namespace std;
+
+class ginput
+{
+  public:
+
+  ginput()
+  {
+   this->value = false; 
+   this->name = name;
+  }
+
+  ginput(bool value)
+  {
+    this->value = value;
+  }
+
+  bool value()
+  {
+   return this->value;
+  }  
+  void set_name (string name)
+  {
+   this->name = name;
+  }
+  private:
+  bool value;
+  string name;
+
+};
+
+#endif /*GINPUT_H_*/

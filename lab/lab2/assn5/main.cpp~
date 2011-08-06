@@ -1,0 +1,32 @@
+#include "termtextviewer.h"
+
+using namespace std;
+
+int main()
+{
+
+  
+  string a = "./text_files/dec_independence.txt"; 
+  string b = "./text_files/hamlet_act1_scene1.txt";
+   string c = "./text_files/error.txt";
+  
+   TermTextViewer dec_inde(a);
+    TermTextViewer hamlet(b);
+   TermTextViewer error(c);
+
+
+  
+  
+   hamlet.view();
+
+   dec_inde.view();
+
+   error.view();  
+
+
+
+
+
+  return 0;
+
+}

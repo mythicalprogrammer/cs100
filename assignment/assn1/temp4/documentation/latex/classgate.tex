@@ -1,0 +1,422 @@
+\section{gate Class Reference}
+\label{classgate}\index{gate@{gate}}
+{\tt \#include $<$gate.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{CompactItemize}
+\item 
+\bf{gate} ()
+\item 
+\bf{gate} (char name)
+\item 
+void \bf{set\_\-type} (string type)
+\item 
+void \bf{add\_\-input} (\bf{ginput} in)
+\item 
+char \bf{get\_\-name} ()
+\item 
+void \bf{set\_\-depend} (char d\_\-name)
+\item 
+char \bf{get\_\-depend} ()
+\item 
+char \bf{get\_\-depend2} ()
+\item 
+bool \bf{depend\_\-status} ()
+\item 
+void \bf{set\_\-output} (char output\_\-name)
+\item 
+bool \bf{check\_\-last\_\-gate} ()
+\item 
+bool \bf{output\_\-value} ()
+\item 
+void \bf{set\_\-dirtybit} (bool bit)
+\item 
+void \bf{set\_\-output\_\-value} (bool value, bool value2)
+\item 
+void \bf{print\_\-inputs} ()
+\item 
+bool \bf{get\_\-dirty} ()
+\item 
+void \bf{set\_\-input} (char t\_\-input, bool t\_\-value)
+\item 
+int \bf{input\_\-size} ()
+\end{CompactItemize}
+
+
+\subsection{Detailed Description}
+The class gate Description: This class creates gate! 
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\index{gate@{gate}!gate@{gate}}
+\index{gate@{gate}!gate@{gate}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gate::gate ()\hspace{0.3cm}{\tt  [inline]}}\label{classgate_e4e2939226d0b3220d76c8c0c13dc16a}
+
+
+The Constructor. 
+
+\begin{Code}\begin{verbatim}30    {
+31      this->gate_name = ' ';
+32      this->type = "UNKNOWN";
+33      this->output = 0;
+34   
+35      this->internal = false;
+36      this->last_gate = false;
+37      this->dirtyBit = false;
+38    }
+\end{verbatim}\end{Code}
+
+
+\index{gate@{gate}!gate@{gate}}
+\index{gate@{gate}!gate@{gate}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}gate::gate (char {\em name})\hspace{0.3cm}{\tt  [inline]}}\label{classgate_c92390a71cdc57a35ce087e2f98bd924}
+
+
+The Constructor with parameters. 
+
+\begin{Code}\begin{verbatim}42    {
+43      this->gate_name = name;
+44      this->type = "UNKNOWN";
+45      this->output = 0;
+46 
+47      this->internal = false;
+48      this->last_gate = false;
+49      this->dirtyBit = false;
+50    } 
+\end{verbatim}\end{Code}
+
+
+
+
+\subsection{Member Function Documentation}
+\index{gate@{gate}!add_input@{add\_\-input}}
+\index{add_input@{add\_\-input}!gate@{gate}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gate::add\_\-input (\bf{ginput} {\em in})\hspace{0.3cm}{\tt  [inline]}}\label{classgate_74416c0f698ea6da4bf652ff8937d8f0}
+
+
+Add an input (that takes 0 or 1) in an array of inputs
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em in}]An input that is about to be push on to the arrary of inputs \end{description}
+\end{Desc}
+
+
+\begin{Code}\begin{verbatim}71    {
+72      input_array.push_back(in);
+73    }
+\end{verbatim}\end{Code}
+
+
+\index{gate@{gate}!check_last_gate@{check\_\-last\_\-gate}}
+\index{check_last_gate@{check\_\-last\_\-gate}!gate@{gate}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}bool gate::check\_\-last\_\-gate ()\hspace{0.3cm}{\tt  [inline]}}\label{classgate_f7d78ff676342e0deb0bda77769a1691}
+
+
+This check to see if the gate is the last gate
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em last\_\-gate}]A bool flag \end{description}
+\end{Desc}
+
+
+\begin{Code}\begin{verbatim}147    {
+148      
+149      return this->last_gate;
+150    }
+\end{verbatim}\end{Code}
+
+
+\index{gate@{gate}!depend_status@{depend\_\-status}}
+\index{depend_status@{depend\_\-status}!gate@{gate}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}bool gate::depend\_\-status ()\hspace{0.3cm}{\tt  [inline]}}\label{classgate_8602b4ac0866e81c3385e9512d738c87}
+
+
+Returns the gate's depending status
+
+\begin{Desc}
+\item[Returns:]Returns gate depended gate name \end{Desc}
+
+
+\begin{Code}\begin{verbatim}124    {
+125      return internal;
+126    }
+\end{verbatim}\end{Code}
+
+
+\index{gate@{gate}!get_depend@{get\_\-depend}}
+\index{get_depend@{get\_\-depend}!gate@{gate}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char gate::get\_\-depend ()\hspace{0.3cm}{\tt  [inline]}}\label{classgate_ff75dba1a4e2e16338e078f6d1b80153}
+
+
+Returns the gate depend output 1
+
+\begin{Desc}
+\item[Returns:]Returns gate depended gate name \end{Desc}
+
+
+\begin{Code}\begin{verbatim}104    {
+105     return this->depend_goutput[0];
+106    }
+\end{verbatim}\end{Code}
+
+
+\index{gate@{gate}!get_depend2@{get\_\-depend2}}
+\index{get_depend2@{get\_\-depend2}!gate@{gate}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char gate::get\_\-depend2 ()\hspace{0.3cm}{\tt  [inline]}}\label{classgate_50fc4b8e9934e785c89ea535b7896741}
+
+
+Returns the gate depend output 2
+
+\begin{Desc}
+\item[Returns:]Returns gate depended gate name \end{Desc}
+
+
+\begin{Code}\begin{verbatim}114    {
+115     return this->depend_goutput[1];
+116    }
+\end{verbatim}\end{Code}
+
+
+\index{gate@{gate}!get_dirty@{get\_\-dirty}}
+\index{get_dirty@{get\_\-dirty}!gate@{gate}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}bool gate::get\_\-dirty ()\hspace{0.3cm}{\tt  [inline]}}\label{classgate_7ea5169f91ba32f156401fc8892cdcb6}
+
+
+The \doxyref{get\_\-dirty()}{p.}{classgate_7ea5169f91ba32f156401fc8892cdcb6} Functions return the value of the gates' dirty bit. 
+
+\begin{Code}\begin{verbatim}236    {
+237      return dirtyBit;
+238    }
+\end{verbatim}\end{Code}
+
+
+\index{gate@{gate}!get_name@{get\_\-name}}
+\index{get_name@{get\_\-name}!gate@{gate}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}char gate::get\_\-name ()\hspace{0.3cm}{\tt  [inline]}}\label{classgate_df2445d83e0c51a5fa2cdc9c47d49038}
+
+
+Returns the gate name
+
+\begin{Desc}
+\item[Returns:]Returns a string \end{Desc}
+
+
+\begin{Code}\begin{verbatim}81    {
+82      return this->gate_name;
+83    } 
+\end{verbatim}\end{Code}
+
+
+\index{gate@{gate}!input_size@{input\_\-size}}
+\index{input_size@{input\_\-size}!gate@{gate}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}int gate::input\_\-size ()\hspace{0.3cm}{\tt  [inline]}}\label{classgate_3c1622de75742e6cc40612d6c4d5ee54}
+
+
+The input\_\-size function returns the total number of inputs the gate contain 
+
+\begin{Code}\begin{verbatim}260    {
+261     return input_array.size();
+262    } 
+\end{verbatim}\end{Code}
+
+
+\index{gate@{gate}!output_value@{output\_\-value}}
+\index{output_value@{output\_\-value}!gate@{gate}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}bool gate::output\_\-value ()\hspace{0.3cm}{\tt  [inline]}}\label{classgate_b3e0234bbd240a5f405b05b9b6c997b4}
+
+
+Returns the output value of this gate
+
+\begin{Desc}
+\item[Returns:]Returns A bool value \end{Desc}
+
+
+\begin{Code}\begin{verbatim}158    {
+159      return this->output;
+160    }
+\end{verbatim}\end{Code}
+
+
+\index{gate@{gate}!print_inputs@{print\_\-inputs}}
+\index{print_inputs@{print\_\-inputs}!gate@{gate}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gate::print\_\-inputs ()\hspace{0.3cm}{\tt  [inline]}}\label{classgate_81facf9464313716003e71ee5fd48641}
+
+
+Just a debugger functions that print all the inputs 
+
+\begin{Code}\begin{verbatim}223    {
+224      for(int i = 0; i < (int)input_array.size(); ++i)
+225      {
+226        cout<<input_array[i].get_name() << " ";
+227      }
+228    }
+\end{verbatim}\end{Code}
+
+
+
+
+Here is the call graph for this function:\index{gate@{gate}!set_depend@{set\_\-depend}}
+\index{set_depend@{set\_\-depend}!gate@{gate}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gate::set\_\-depend (char {\em d\_\-name})\hspace{0.3cm}{\tt  [inline]}}\label{classgate_19d7b9f647d6a3f939a6ad6273510cc4}
+
+
+This basically check to see if a gates' input(s) depend on another an output of another gate.
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em dname}]The gate that is going to be set \end{description}
+\end{Desc}
+
+
+\begin{Code}\begin{verbatim}93    {
+94      this->depend_goutput.push_back(d_name);
+95      internal = true;
+96    }
+\end{verbatim}\end{Code}
+
+
+\index{gate@{gate}!set_dirtybit@{set\_\-dirtybit}}
+\index{set_dirtybit@{set\_\-dirtybit}!gate@{gate}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gate::set\_\-dirtybit (bool {\em bit})\hspace{0.3cm}{\tt  [inline]}}\label{classgate_802cf1b0fdbcf3eb90c38f1790c993ab}
+
+
+This is the same concept as a cache having a dirty\-Bit
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em bit}]Set a dirty bit (like a cache) \end{description}
+\end{Desc}
+
+
+\begin{Code}\begin{verbatim}169    {
+170      this->dirtyBit = bit;
+171    }
+\end{verbatim}\end{Code}
+
+
+\index{gate@{gate}!set_input@{set\_\-input}}
+\index{set_input@{set\_\-input}!gate@{gate}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gate::set\_\-input (char {\em t\_\-input}, bool {\em t\_\-value})\hspace{0.3cm}{\tt  [inline]}}\label{classgate_627239b667c8f27f4f1f74ad8b61ac09}
+
+
+The \doxyref{get\_\-dirty()}{p.}{classgate_7ea5169f91ba32f156401fc8892cdcb6} Functions return the value of the gate's dirty bit. 
+
+\begin{Code}\begin{verbatim}246    {
+247      for(int i = 0; i < (int)input_array.size(); ++i)
+248      {
+249        if(input_array[i].get_name() == t_input)
+250         input_array[i].set_value(t_value);
+251      }
+252    }
+\end{verbatim}\end{Code}
+
+
+
+
+Here is the call graph for this function:\index{gate@{gate}!set_output@{set\_\-output}}
+\index{set_output@{set\_\-output}!gate@{gate}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gate::set\_\-output (char {\em output\_\-name})\hspace{0.3cm}{\tt  [inline]}}\label{classgate_4151f489e389976121e157e502c58bed}
+
+
+This set the last gate output name and flag so that we will know
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em output\_\-name}]The name of the output \end{description}
+\end{Desc}
+
+
+\begin{Code}\begin{verbatim}136    {
+137      this->output_name = output_name;
+138      this->last_gate = true;
+139    }
+\end{verbatim}\end{Code}
+
+
+\index{gate@{gate}!set_output_value@{set\_\-output\_\-value}}
+\index{set_output_value@{set\_\-output\_\-value}!gate@{gate}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gate::set\_\-output\_\-value (bool {\em value}, bool {\em value2})\hspace{0.3cm}{\tt  [inline]}}\label{classgate_bbcb67c7d10787d23606515a8239a85f}
+
+
+The set\_\-output\_\-value function calculate inputs
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em value}]Value is a bit input for the gate \item[{\em value2}]Value is a bit input for the gate \end{description}
+\end{Desc}
+
+
+\begin{Code}\begin{verbatim}179    {
+180     
+181     if(input_array.size() >= 2)
+182     { 
+183        this->output = input_array[0].value();
+184 
+185        if(this->type == "OR")
+186         {for(int i = 1; i < (int)input_array.size(); ++i)
+187           this->output = this->output | input_array[i].value();}
+188        else if(this->type == "AND")
+189         {for(int i = 1; i < (int)input_array.size(); ++i)
+190           this->output = this->output & input_array[i].value();}
+191    
+192        
+193     }
+194 
+195     else if(input_array.size() == 1)
+196     {
+197       if(this->type == "OR")
+198        this->output = input_array[0].value() | value;
+199       else if(this->type == "AND")
+200         this->output = input_array[0].value() & value;
+201       else if(this->type == "NOT")
+202         this->output = !(input_array[0].value());
+203     }
+204 
+205     else if(input_array.size() == 0)
+206     {
+207       if(this->type == "OR")
+208         this->output = value2 | value;
+209       else if(this->type == "AND")
+210         this->output = value2 & value;
+211     }
+212    
+213        this->dirtyBit = true;
+214 
+215    }//end set_output_value
+\end{verbatim}\end{Code}
+
+
+\index{gate@{gate}!set_type@{set\_\-type}}
+\index{set_type@{set\_\-type}!gate@{gate}}
+\subsubsection{\setlength{\rightskip}{0pt plus 5cm}void gate::set\_\-type (string {\em type})\hspace{0.3cm}{\tt  [inline]}}\label{classgate_325aee2bb2231060b6bded54e1f41785}
+
+
+Set the type value (OR, AND, NOT)
+
+\begin{Desc}
+\item[Parameters:]
+\begin{description}
+\item[{\em type}]A string parameter \end{description}
+\end{Desc}
+
+
+\begin{Code}\begin{verbatim}59    {
+60      this->type = type;
+61    }
+\end{verbatim}\end{Code}
+
+
+
+
+The documentation for this class was generated from the following file:\begin{CompactItemize}
+\item 
+\bf{gate.h}\end{CompactItemize}

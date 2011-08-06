@@ -1,0 +1,64 @@
+#ifndef GATE_H_
+#define GATE_H_
+
+#include<string>
+#include<iostream>
+#include <vector>
+#include "ginput.h"
+
+using namespace std;
+
+class gate
+{
+  public:
+/*
+   gate()
+   {
+     this->name = "";
+     this->type = "";
+     //this->output = 0;
+   }
+
+   gate(string name)
+   {
+     this->name = name;
+   } */
+/*
+   void set_type(string type)
+   {
+     this->type = type;
+   }
+  
+   void add_input(input in)
+   {
+     inputs.push_back(in);
+   }
+
+   int output()
+   {
+	 this->output = inputs[0];
+      if(this->type == "OR")
+      {
+	for(int i = 1; i < inputs.size(); ++i)
+          output = output | inputs[i].value();
+      }
+      else if(this->type == "NOT")
+      {
+	for(int i = 0; i < inputs.size(); ++i)
+          output = ~output;
+      }
+      else if(this->type == "AND")
+      {
+	for(int i = 1; i < inputs.size(); ++i)
+          output = output & inputs[i].value();
+      }
+   } */
+ 
+  private:
+   string name;
+   string type;
+   //vector<ginput> inputs;
+   //bool output;
+};
+
+#endif /*GATE_H_*/ 

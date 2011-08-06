@@ -1,0 +1,276 @@
+/**
+ * \gate.h
+ * \author Quoc Anh Doan
+ * \SID: 860759993
+ * \Login: qdoan
+ * \Date: April 14, 2008
+ */
+#ifndef GATE_H_
+#define GATE_H_
+
+#include<string>
+#include<iostream>
+#include <fstream>
+#include <vector>
+#include "ginput.h"
+
+using namespace std;
+/**
+ * The class gate
+ * Description: This class creates gate! 
+ *              
+ */
+
+class gate
+{
+  public:
+
+  /** The Constructor. */
+   gate()
+   {
+     this->gate_name = ' ';
+     this->type = "UNKNOWN";
+     this->output = 0;
+  
+     this->internal = false;
+     this->last_gate = false;
+     this->dirtyBit = false;
+   }
+
+  /** The Constructor with parameters. */
+  gate(char name)
+   {
+     this->gate_name = name;
+     this->type = "UNKNOWN";
+     this->output = 0;
+
+     this->internal = false;
+     this->last_gate = false;
+     this->dirtyBit = false;
+   } 
+
+
+  /**
+     Set the type value (OR, AND, NOT)
+
+     \param type A string parameter 
+  */
+   void set_type(string type)
+   {
+     this->type = type;
+   }
+
+  /**
+     Add an input (that takes 0 or 1) in
+     an array of inputs
+
+     \param in An input that is about to be push
+     *         on to the arrary of inputs
+  */
+   void add_input(ginput in)
+   {
+     input_array.push_back(in);
+   }
+
+  /**
+     Returns the gate name
+
+     \return Returns a string 
+  */
+   char get_name()
+   {
+     return this->gate_name;
+   } 
+
+  /**
+     This basically check to see if a gates'
+     input(s) depend on another an output of 
+     another gate.
+ 
+     \param dname The gate that is going to be set
+  */
+   void set_depend(char d_name)
+   {
+     this->depend_goutput.push_back(d_name);
+     internal = true;
+   }
+  
+  /**
+     Returns the gate depend output 1
+
+     \return Returns gate depended gate name
+  */
+   char get_depend()
+   {
+    return this->depend_goutput[0];
+   }
+
+  /**
+     Returns the gate depend output 2
+
+     \return Returns gate depended gate name
+  */
+   char get_depend2()
+   {
+    return this->depend_goutput[1];
+   }
+
+  /**
+     Returns the gate's depending status
+
+     \return Returns gate depended gate name
+  */
+   bool depend_status()
+   {
+     return internal;
+   }
+
+ /**
+     This set the last gate output name and flag so
+     that we will know 
+ 
+     \param output_name The name of the output
+
+  */
+   void set_output(char output_name)
+   {
+     this->output_name = output_name;
+     this->last_gate = true;
+   }
+
+ /**
+     This check to see if the gate is the last gate
+ 
+     \param last_gate A bool flag
+  */
+   bool check_last_gate()
+   {
+     
+     return this->last_gate;
+   }
+
+  /**
+     Returns the output value of this gate
+
+     \return Returns A bool value
+  */
+   bool output_value()
+   {
+     return this->output;
+   }
+
+ /**
+     This is the same concept as a cache having a 
+     dirtyBit
+ 
+     \param bit Set a dirty bit (like a cache)
+  */
+   void set_dirtybit(bool bit)
+   {
+     this->dirtyBit = bit;
+   }
+  /**
+     The set_output_value function calculate inputs
+
+     \param value Value is a bit input for the gate
+     \param value2 Value is a bit input for the gate
+  */
+   void set_output_value(bool value, bool value2)
+   {
+    
+    if(input_array.size() >= 2)
+    { 
+       this->output = input_array[0].value();
+
+       if(this->type == "OR")
+      	{for(int i = 1; i < (int)input_array.size(); ++i)
+          this->output = this->output | input_array[i].value();}
+       else if(this->type == "AND")
+        {for(int i = 1; i < (int)input_array.size(); ++i)
+          this->output = this->output & input_array[i].value();}
+   
+       
+    }
+
+    else if(input_array.size() == 1)
+    {
+      if(this->type == "OR")
+       this->output = input_array[0].value() | value;
+      else if(this->type == "AND")
+        this->output = input_array[0].value() & value;
+      else if(this->type == "NOT")
+        this->output = !(input_array[0].value());
+    }
+
+    else if(input_array.size() == 0)
+    {
+      if(this->type == "OR")
+        this->output = value2 | value;
+      else if(this->type == "AND")
+        this->output = value2 & value;
+    }
+   
+       this->dirtyBit = true;
+
+   }//end set_output_value
+
+  /**
+     Just a debugger functions that print all the 
+     inputs
+
+  */
+   void print_inputs()
+   {
+     for(int i = 0; i < (int)input_array.size(); ++i)
+     {
+       cout<<input_array[i].get_name() << " ";
+     }
+   }
+
+  /**
+     The get_dirty() Functions return the value of 
+     the gates' dirty bit.
+
+  */
+   bool get_dirty()
+   {
+     return dirtyBit;
+   }
+  
+  /**
+     The get_dirty() Functions return the value of 
+     the gate's dirty bit.
+
+  */
+   void set_input(char t_input, bool t_value)
+   {
+     for(int i = 0; i < (int)input_array.size(); ++i)
+     {
+       if(input_array[i].get_name() == t_input)
+        input_array[i].set_value(t_value);
+     }
+   }
+
+  /**
+     The input_size function returns the total
+     number of inputs the gate contain
+
+  */
+   int input_size()
+   {
+    return input_array.size();
+   } 
+
+  private:
+   char gate_name;///< This is the gate name
+   string type; ///< This is the gate type (AND, OR, NOT)
+   vector<ginput> input_array;///< All the inputs the gate contain
+   bool output; ///< This store the output value (for calculating reason)
+   char output_name; ///< name of the output (reserve for last gates)
+   vector<char> depend_goutput; ///< holds the depending inputs (internal wires)
+   bool internal; ///< Flag to say this flag is depending on another gate's output
+   bool last_gate;
+   bool dirtyBit;
+};
+
+#endif /*GATE_H_*/
